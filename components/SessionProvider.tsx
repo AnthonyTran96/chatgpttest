@@ -9,7 +9,7 @@ type Props = {
 };
 
 function SectionProvider({ children, session }: Props) {
-    return <Provider>{children}</Provider>;
+    return <Provider session={session}>{children}</Provider>;
 }
 
 export default SectionProvider;

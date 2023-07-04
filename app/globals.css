@@ -5,3 +5,9 @@
 .text-info {
     @apply text-center text-sm p-3 bg-[#3e3f4b] rounded-lg;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}

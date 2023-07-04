@@ -1,7 +1,7 @@
 import { SunIcon, BoltIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 export default function Home() {
     return (
-        <main className="flex flex-col px-6 items-center justify-center overflow-hidden ">
+        <main className="flex flex-col px-6 items-center justify-center overflow-hidden bg-[#343541]">
             <h1 className="mt-5 text-4xl font-bold ">ChatGPT</h1>
             <div className="mt-10 ">
                 <div className="mb-6">

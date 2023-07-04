@@ -6,6 +6,7 @@ import Login from '@/components/Login';
 import NewChat from '@/components/NewChat';
 import ChatInput from '@/components/ChatInput';
 import Sidebar from '@/components/Sidebar';
+import { ContextProvider } from '@/components/ContextProvider';
 
 export const metadata = {
     title: 'ChatGPT-Advanced',
@@ -22,8 +23,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                         <Login />
                     ) : (
                         <div className=" w-screen h-screen ">
-                            <NewChat />
-                            <Sidebar />
+                            <ContextProvider>
+                                <NewChat />
+                                <Sidebar />
+                            </ContextProvider>
                             {children}
                             <ChatInput />
                         </div>
