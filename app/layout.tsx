@@ -22,14 +22,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     {!session ? (
                         <Login />
                     ) : (
-                        <div className=" w-screen h-screen ">
-                            <ContextProvider>
+                        <ContextProvider>
+                            <div className=" w-screen h-screen relative">
                                 <NewChat />
-                                <Sidebar />
-                            </ContextProvider>
-                            {children}
-                            <ChatInput />
-                        </div>
+                                <div className="flex w-full h-full  ">
+                                    <Sidebar />
+                                    <div className="h-full w-full flex-1 max-w-3xl mx-auto">{children}</div>
+                                </div>
+                            </div>
+                        </ContextProvider>
                     )}
                 </SectionProvider>
             </body>

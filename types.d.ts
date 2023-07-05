@@ -2,8 +2,8 @@ interface Message {
     text: string;
     createdAt: admin.firebase.Timestamp;
     user: {
+        _id: string;
         name: string;
-        email: string;
-        image: string;
+        avatar: string;
     };
 }
