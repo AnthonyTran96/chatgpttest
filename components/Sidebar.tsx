@@ -78,7 +78,6 @@ function Sidebar() {
                                 onClick={() => signOut()}
                                 className="flex items-center space-x-1 absolute right-5 cursor-pointer font-semibold"
                             >
-                                <p>Sign Out</p>
                                 <ArrowRightOnRectangleIcon className=" w-5 h-5" />
                             </div>
                         </div>

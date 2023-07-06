@@ -46,7 +46,7 @@ function ChatInput({ chatId }: Props) {
         message.trim() ? setIsEmpty(false) : setIsEmpty(true);
     };
     return (
-        <div className="fixed bottom-0 max-w-3xl w-full p-4 border-t-[0.5px] border-gray-600 bg-[#343541] flex justify-center items-center md:border-none md:pb-6">
+        <div className="fixed bottom-0 w-full max-w-3xl p-4 mx-auto border-t-[0.5px] border-gray-600 bg-[#343541] flex justify-center items-center md:border-none md:pb-6">
             <form onSubmit={handleSubmit} className="w-full max-w-3xl relative flex items-center ">
                 <input
                     placeholder="Send a message"
@@ -57,7 +57,9 @@ function ChatInput({ chatId }: Props) {
                 />
                 <button
                     type="submit"
-                    className={`absolute right-0 p-2 mr-2 rounded-lg ${!isEmpty && 'bg-[#19c37d]'} duration-200`}
+                    className={`absolute right-0 p-2 mr-2 rounded-lg ${!isEmpty && 'bg-[#19c37d]'} ${
+                        isEmpty && 'pointer-events-none text-gray-400'
+                    } duration-200`}
                 >
                     <PaperAirplaneIcon className="h-4 w-4" />
                 </button>
