@@ -7,21 +7,22 @@
 // presence_penalty: Điều chỉnh sự xuất hiện của các cụm từ không liên quan trong câu trả lời. Giá trị càng cao, mô hình sẽ tránh sử dụng các cụm từ không liên quan.
 
 import openai from './openai';
-const chatQuery = async (prompt: string, model: string) => {
+const titleQuery = async (question: string, model: string) => {
+    const prompt = `Impersonate an intelligent AI with the sole task as follows: "I will provide you with a question sentence to initiate a conversation with OpenAI's ChatGPT tool. Based on the question's content, create a suitable title for the conversation that will be formed around that question, using fewer than 12 words. Only provide the accurate summary sentence, without adding any extra words or unnecessary punctuation. Do not include the word 'Title' or any similar words in other languages. Do not enclose your answer within any brackets or quotation marks, such as "". Respond in the same language as the question. Here is the question content: "${question}"`;
     try {
         const res = await openai.createCompletion({
             model,
             prompt,
-            temperature: 0.9,
-            max_tokens: 1000,
-            top_p: 0.7,
+            temperature: 0.1,
+            max_tokens: 20,
+            top_p: 0.2,
             frequency_penalty: 0.0,
-            presence_penalty: 0.6,
+            presence_penalty: 0.9,
         });
         return res.data.choices[0].text;
     } catch (error) {
-        return `ChatGPT was unable to find an answer for that! (${error})`;
+        return 'New Chat';
     }
 };
 
-export default chatQuery;
+export default titleQuery;

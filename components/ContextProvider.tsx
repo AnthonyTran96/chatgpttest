@@ -2,8 +2,9 @@
 import { createContext, useState } from 'react';
 
 interface ContextProps {
-    value: boolean;
-    updateValue: (newValue: boolean) => void;
+    sidebarDisable: boolean;
+    chatTitle: string;
+    setNewProp: (propName: string, newValue: any) => void;
 }
 
 type Props = {
@@ -11,16 +12,33 @@ type Props = {
 };
 
 export const Context = createContext<ContextProps>({
-    value: true,
-    updateValue: () => {},
+    sidebarDisable: true,
+    chatTitle: 'New Chat',
+    setNewProp: () => {},
 });
 
 export const ContextProvider = ({ children }: Props) => {
-    const [value, setValue] = useState(true);
+    const [sidebarDisable, setSidebarDisable] = useState(true);
+    const [chatTitle, setChatTitle] = useState('New Chat');
 
-    const updateValue = (newValue: boolean) => {
-        setValue(newValue);
+    const setNewProp = (propName: string, newValue: any) => {
+        switch (propName) {
+            case 'sidebarDisable':
+                setSidebarDisable(newValue);
+                break;
+            case 'chatTitle':
+                setChatTitle(newValue);
+                break;
+            default:
+                break;
+        }
     };
 
-    return <Context.Provider value={{ value, updateValue }}>{children}</Context.Provider>;
+    const contextValue: ContextProps = {
+        sidebarDisable,
+        chatTitle,
+        setNewProp,
+    };
+
+    return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 };

@@ -27,7 +27,7 @@ function ChatDialog({ chatId }: Props) {
                 <div className="animate-pulse flex justify-center flex-1 items-center">Error: {error.message}</div>
             )}
             {messages && (
-                <div className="w-full ">
+                <div className="w-full overflow-y-auto">
                     {messages.docs.map((doc) => (
                         <ChatRow
                             key={doc.id}

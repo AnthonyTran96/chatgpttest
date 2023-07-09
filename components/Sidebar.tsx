@@ -9,10 +9,11 @@ import ChatTitle from './ChatTitle';
 import { Context } from './ContextProvider';
 import { db } from '@/firebase';
 import { addDoc, collection, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { title } from 'process';
 
 function Sidebar() {
     const { data: session } = useSession();
-    const { value, updateValue } = useContext(Context);
+    const { sidebarDisable, setNewProp } = useContext(Context);
     const router = useRouter();
     const [chats, loading, error] = useCollection(
         session && query(collection(db, 'users', session?.user?.email!, 'chats'), orderBy('createdAt', 'asc')),
@@ -24,22 +25,26 @@ function Sidebar() {
             createdAt: serverTimestamp(),
         });
         router.push(`/chat/${chatData.id}`);
+        setNewProp('sidebarDisable', true);
     };
 
     return (
-        <div
-            className={`h-screen w-screen fixed left-0 top-0 text-sm duration-500 ease-in-out ${
-                value ? '-z-20' : 'z-20 bg-gray-600 bg-opacity-75'
-            } md:w-[260px] md:static md:z-10 md:duration-0`}
-        >
+        <>
             <div
-                className={`w-80 bg-[#202123] h-full flex flex-col p-2 pb-[60px] overflow-x-auto duration-500 ease-in-out ${
-                    value && '-translate-x-full'
-                } md:translate-x-0 md:w-full`}
+                className={`h-full w-full bg-gray-500/70 absolute top-0 left-0 md:hidden duration-300 ${
+                    sidebarDisable ? '-z-20' : 'z-20'
+                }`}
+            ></div>
+            <div
+                className={`w-80 bg-[#202123] h-screen fixed text-sm left-0 top-0 z-30 flex flex-col p-2 pb-[60px] transition-transform duration-300 ${
+                    sidebarDisable && '-translate-x-full'
+                } md:translate-x-0 md:static md:z-10 md:w-[260px]`}
             >
                 <button
-                    onClick={() => updateValue(true)}
-                    className="absolute left-[325px] top-2 rounded-md border p-2 md:hidden"
+                    onClick={() => setNewProp('sidebarDisable', true)}
+                    className={`absolute left-[325px] top-2 rounded-md border p-2 md:hidden  ${
+                        sidebarDisable && 'hidden'
+                    }`}
                 >
                     <XMarkIcon className="w-7 h-7" />
                 </button>
@@ -84,7 +89,7 @@ function Sidebar() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

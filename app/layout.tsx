@@ -1,10 +1,10 @@
 import './globals.css';
 import SectionProvider from '@/components/SessionProvider';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
+// import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { authOptions } from './api/auth/[...nextauth]/route';
 import Login from '@/components/Login';
 import NewChat from '@/components/NewChat';
-import ChatInput from '@/components/ChatInput';
 import Sidebar from '@/components/Sidebar';
 import { ContextProvider } from '@/components/ContextProvider';
 
@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                                 <NewChat />
                                 <div className="flex w-full h-full  ">
                                     <Sidebar />
-                                    <div className="h-full w-full flex-1">{children}</div>
+                                    <div className="h-full w-full flex-1 bg-[#343541] ">{children}</div>
                                 </div>
                             </div>
                         </ContextProvider>
