@@ -9,7 +9,6 @@ import ChatTitle from './ChatTitle';
 import { Context } from './ContextProvider';
 import { db } from '@/firebase';
 import { addDoc, collection, orderBy, query, serverTimestamp } from 'firebase/firestore';
-import { title } from 'process';
 
 function Sidebar() {
     const { data: session } = useSession();
@@ -36,9 +35,9 @@ function Sidebar() {
                 }`}
             ></div>
             <div
-                className={`w-80 bg-[#202123] h-screen fixed text-sm left-0 top-0 z-30 flex flex-col p-2 pb-[60px] transition-transform duration-300 ${
+                className={`w-80 bg-[#202123] h-screen absolute text-sm left-0 top-0 z-30 flex flex-col p-2 pb-[70px] transition-transform duration-300 ${
                     sidebarDisable && '-translate-x-full'
-                } md:translate-x-0 md:static md:z-10 md:w-[260px]`}
+                } md:translate-x-0  md:w-[260px] md:static`}
             >
                 <button
                     onClick={() => setNewProp('sidebarDisable', true)}
@@ -49,7 +48,7 @@ function Sidebar() {
                     <XMarkIcon className="w-7 h-7" />
                 </button>
                 <button
-                    className="w-full flex items-center space-x-2 p-[10px] border border-gray-500 rounded-md sticky top-0 bg-[#202123] hover:bg-gray-500/25"
+                    className="w-full flex items-center space-x-2 p-[10px] border border-gray-500 rounded-md  top-0 bg-[#202123] hover:bg-gray-500/25"
                     onClick={handleAddChat}
                 >
                     <PlusIcon className="h-4 w-4 " />
@@ -62,10 +61,10 @@ function Sidebar() {
                     </div>
                 )}
                 {chats && (
-                    <div className="mt-2">
-                        {chats.docs.map((chat) => (
-                            <ChatTitle key={chat.id} title={chat.data().title} id={chat.id} />
-                        ))}
+                    <div className="mt-2 overflow-y-auto">
+                        {chats.docs.map((chat) => {
+                            return <ChatTitle key={chat.id} title={chat.data().title} id={chat.id} />;
+                        })}
                     </div>
                 )}
                 {error && (
@@ -74,7 +73,7 @@ function Sidebar() {
                     </div>
                 )}
 
-                <div className="fixed bottom-0 left-0 bg-[#202123] w-80 px-2 md:w-full">
+                <div className="absolute bottom-0 left-0 w-full bg-[#202123]  px-2 ">
                     <div className="w-full border-t-[0.5px] border-gray-600 px-2 py-4">
                         <div className="flex space-x-2 items-center">
                             <img src={session?.user?.image!} className="w-8 h-8 rounded-sm" alt="avatar" />

@@ -19,7 +19,7 @@ function ChatDialog({ chatId }: Props) {
             ),
     );
     return (
-        <>
+        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto ">
             {loading && (
                 <div className="animate-pulse flex justify-center flex-1 items-center">....Loading Messages</div>
             )}
@@ -27,7 +27,7 @@ function ChatDialog({ chatId }: Props) {
                 <div className="animate-pulse flex justify-center flex-1 items-center">Error: {error.message}</div>
             )}
             {messages && (
-                <div className="w-full overflow-y-auto">
+                <div className="w-full ">
                     {messages.docs.map((doc) => (
                         <ChatRow
                             key={doc.id}
@@ -38,7 +38,7 @@ function ChatDialog({ chatId }: Props) {
                     ))}
                 </div>
             )}
-        </>
+        </div>
     );
 }
 

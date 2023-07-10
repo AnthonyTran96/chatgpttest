@@ -45,7 +45,7 @@ function ChatInput({ chatId }: Props) {
         message.trim() ? setIsEmpty(false) : setIsEmpty(true);
     };
     return (
-        <div className="fixed bottom-0 w-full max-w-3xl p-4 mx-auto border-t-[0.5px] border-gray-600 bg-[#343541] flex justify-center items-center md:border-none md:pb-6">
+        <div className="relative bottom-0 w-full max-w-3xl p-4 mx-auto border-t-[0.5px] border-gray-600 bg-[#343541] flex justify-center items-center md:border-none ">
             <form onSubmit={handleSubmit} className="w-full max-w-3xl relative flex items-center ">
                 <input
                     placeholder="Send a message"

@@ -20,7 +20,7 @@ function NewChat() {
         setNewProp('chatTitle', 'New Chat');
     };
     return (
-        <div className="flex items-center justify-between border-b-[0.5px] border-gray-600 sticky top-0 z-10 w-full text-gray-200 bg-[#343541] md:hidden">
+        <div className="flex items-center justify-between border-b-[0.5px] border-gray-600 absolute top-0  w-full text-gray-200 bg-[#343541] md:hidden">
             <div
                 onClick={() => setNewProp('sidebarDisable', false)}
                 className="p-2 cursor-pointer hover:text-yellow-200"
