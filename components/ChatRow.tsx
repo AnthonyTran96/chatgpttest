@@ -1,18 +1,18 @@
-/* eslint-disable @next/next/no-img-element */
-import React from 'react';
+'use client';
 
+/* eslint-disable @next/next/no-img-element */
 type Props = {
-    message: string;
+    content: string;
     avatar: string;
-    user: string;
+    role: string;
 };
 
-function ChatRow({ message, avatar, user }: Props) {
+function ChatRow({ content, avatar, role }: Props) {
     return (
-        <div className={`${user === 'ChatGPT' ? 'bg-[#444654]' : ''} w-full`}>
+        <div className={`${role === 'assistant' ? 'bg-[#444654]' : ''} w-full`}>
             <div className="p-4 flex space-x-4 max-w-3xl mx-auto">
                 <img src={avatar} alt="avatar" className="w-8 h-8 rounded-sm" />
-                <p>{message}</p>
+                <div>{content}</div>
             </div>
         </div>
     );

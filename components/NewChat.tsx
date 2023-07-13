@@ -16,7 +16,7 @@ function NewChat() {
             title: 'New Chat',
             createdAt: serverTimestamp(),
         });
-        router.push(`/chat/${chatData.id}`);
+        router.push(`/c/${chatData.id}`);
         setNewProp('chatTitle', 'New Chat');
     };
     return (

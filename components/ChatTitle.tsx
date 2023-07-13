@@ -36,6 +36,7 @@ function ChatTitle({ title, id }: Props) {
         if (selectOption === null) return;
         if (selectOption === 'delete') {
             deleteDoc(doc(db, 'users', session?.user?.email!, 'chats', id));
+            setNewProp('chatTitle', 'New Chat');
             router.replace('/');
             return;
         }
@@ -75,7 +76,7 @@ function ChatTitle({ title, id }: Props) {
 
     return (
         <Link
-            href={`/chat/${id}`}
+            href={`/c/${id}`}
             ref={titleRef}
             className={`flex items-center relative rounded-md space-x-3 p-3 w-full h-auto ${
                 isActive ? 'bg-gray-500/30' : 'hover:bg-gray-500/20'

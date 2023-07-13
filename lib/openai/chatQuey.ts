@@ -7,21 +7,18 @@
 // presence_penalty: Điều chỉnh sự xuất hiện của các cụm từ không liên quan trong câu trả lời. Giá trị càng cao, mô hình sẽ tránh sử dụng các cụm từ không liên quan.
 
 import openai from './openai';
-const chatQuery = async (prompt: string, model: string) => {
-    try {
-        const res = await openai.createCompletion({
-            model,
-            prompt,
-            temperature: 0.9,
-            max_tokens: 1000,
-            top_p: 0.7,
-            frequency_penalty: 0.0,
-            presence_penalty: 0.6,
-        });
-        return res.data.choices[0].text;
-    } catch (error) {
-        return `ChatGPT was unable to find an answer for that! (${error})`;
-    }
+import { OpenAIStream, StreamingTextResponse } from 'ai';
+
+const chatQuery = async (messages: string) => {
+    // Ask OpenAI for a streaming chat completion given the prompt
+    const response = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        stream: true,
+        messages,
+    });
+
+    // Convert the response into a friendly text-stream
+    const stream = OpenAIStream(response);
 };
 
 export default chatQuery;
