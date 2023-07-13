@@ -29,7 +29,7 @@ function ChatDialog({ chatId }: Props) {
         getMessage();
     }, []);
     return (
-        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto ">
+        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto">
             {messages.map((m) => (
                 <ChatRow
                     key={m.id}
