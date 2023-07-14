@@ -3,7 +3,7 @@ import ChatRow from '@/components/ChatRow';
 import { useSession } from 'next-auth/react';
 import { collection, orderBy, query, getDocs } from 'firebase/firestore';
 import { useChat, Message } from 'ai/react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { db } from '@/firebase';
 
 type Props = {
@@ -27,9 +27,20 @@ function ChatDialog({ chatId }: Props) {
     };
     useEffect(() => {
         getMessage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const DialogRef = useRef<HTMLDivElement>(null);
+    const DialogElement = DialogRef.current;
+    useEffect(() => {
+        if (DialogElement && DialogElement.scrollHeight > DialogElement.clientHeight) {
+            DialogElement.scrollTo(0, DialogElement.scrollHeight);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages]);
+
     return (
-        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto">
+        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto scroll-smooth" ref={DialogRef}>
             {messages.map((m) => (
                 <ChatRow
                     key={m.id}
