@@ -40,7 +40,7 @@ function ChatDialog({ chatId }: Props) {
     }, [messages]);
 
     return (
-        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto scroll-smooth" ref={DialogRef}>
+        <div className="flex flex-col flex-1 w-full h-full overflow-y-auto " ref={DialogRef}>
             {messages.map((m) => (
                 <ChatRow
                     key={m.id}
