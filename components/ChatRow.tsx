@@ -14,9 +14,9 @@ type Props = {
 function ChatRow({ content, avatar, role }: Props) {
     return (
         <div className={`${role === 'assistant' ? 'bg-[#444654]' : ''} w-full`}>
-            <div className="p-4 flex space-x-4 max-w-3xl mx-auto">
-                <img src={avatar} alt="avatar" className="w-8 h-8 rounded-sm" />
-                <div className="w-full">
+            <div className="p-4 md:py-6 md:px-0 flex max-w-3xl mx-auto relative">
+                <img src={avatar} alt="avatar" className="w-8 h-8 rounded-sm absolute" />
+                <div className="w-full pl-12  md:pr-12 ">
                     <ReactMarkdown
                         className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 w-full"
                         remarkPlugins={[remarkGfm, remarkMath]}

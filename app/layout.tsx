@@ -27,7 +27,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                                 <NewChat />
                                 <div className="flex w-full h-full flex-1">
                                     <Sidebar />
-                                    <div className="h-full bg-[#343541] flex-1 pt-[45px]  md:pt-0">{children}</div>
+                                    <div className="h-full bg-[#343541] flex-1 pt-[45px] w-full md:pt-0">
+                                        {children}
+                                    </div>
                                 </div>
                             </div>
                         </ContextProvider>
