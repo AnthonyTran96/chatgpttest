@@ -10,6 +10,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { useChat, Message } from 'ai/react';
 import addTitle from '@/lib/actions/addTitle';
 import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
+import Textarea from 'react-textarea-autosize';
 
 type Props = {
     chatId: string;
@@ -76,7 +77,7 @@ function ChatInput({ chatId }: Props) {
             setResAction('REGENERATE');
         },
     });
-    const _handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const _handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         handleInputChange(e);
         e.target.value.trim() ? setIsEmpty(false) : setIsEmpty(true);
     };
@@ -156,23 +157,29 @@ function ChatInput({ chatId }: Props) {
                     </button>
                 )}
             </div>
-            <form onSubmit={_handleSubmit} className="w-full max-w-3xl relative flex items-center ">
-                <input
+            <form
+                onSubmit={_handleSubmit}
+                className="w-full max-w-3xl relative flex items-center overflow-y-auto rounded-lg bg-[#40414f] py-3 pl-4 pr-12"
+            >
+                <Textarea
                     placeholder="Send a message"
-                    className="w-full rounded-lg bg-[#40414f] text-base  text-gray-200 border-none outline-none p-3 "
+                    rows={1}
+                    maxRows={8}
+                    spellCheck={false}
+                    tabIndex={0}
+                    className="w-full text-base resize-none bg-transparent text-gray-200 border-none outline-none over"
                     value={input}
                     autoFocus
                     onChange={_handleInputChange}
-                    type="text"
                 />
                 {isLoading ? (
-                    <div className="absolute right-0 p-2 flex items-center mr-2">
+                    <div className="absolute right-3 bottom-2 p-2 flex items-center ">
                         <BlinkingDots />
                     </div>
                 ) : (
                     <button
                         type="submit"
-                        className={`absolute right-0 p-2 flex items-center mr-2 rounded-lg ${
+                        className={`absolute right-3 bottom-2 p-2 flex items-center rounded-lg ${
                             !isEmpty && 'bg-[#19c37d]'
                         } ${isEmpty && 'pointer-events-none text-gray-400'} duration-200`}
                     >
