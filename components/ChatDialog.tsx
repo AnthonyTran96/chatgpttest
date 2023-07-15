@@ -26,6 +26,7 @@ function ChatDialog({ chatId }: Props) {
         setMessages(data);
     };
     useEffect(() => {
+        setMessages([]);
         getMessage();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

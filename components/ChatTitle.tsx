@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { db } from '@/firebase';
 import { Context } from './ContextProvider';
+import { useChat } from 'ai/react';
 
 type Props = {
     title: string;
@@ -16,6 +17,9 @@ type Props = {
 type SelectOption = 'delete' | 'change' | null;
 
 function ChatTitle({ title, id }: Props) {
+    const { setMessages } = useChat({
+        id: 'ChatGPT',
+    });
     const { setNewProp } = useContext(Context);
     const [updateTitle, setUpdateTitle] = useState(title);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -37,6 +41,7 @@ function ChatTitle({ title, id }: Props) {
         if (selectOption === 'delete') {
             deleteDoc(doc(db, 'users', session?.user?.email!, 'chats', id));
             setNewProp('chatTitle', 'New Chat');
+            setMessages([]);
             router.replace('/');
             return;
         }
