@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import { addDoc, collection, updateDoc, getDocs, query, orderBy, doc } from 'firebase/firestore';
@@ -31,6 +31,7 @@ type Memo = {
 
 function ChatInput({ chatId }: Props) {
     const { data: session } = useSession();
+    const inputRef = useRef<HTMLTextAreaElement>(null);
     const [isEmpty, setIsEmpty] = useState(true);
     const [resAction, setResAction] = useState<Action>('REGENERATE');
     const [memory, setMemory] = useState<Memo>({
@@ -83,6 +84,8 @@ function ChatInput({ chatId }: Props) {
     };
     const _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         setResAction(null);
+        setIsEmpty(true);
+        inputRef.current?.focus();
         handleSubmit(e);
     };
 
@@ -159,10 +162,11 @@ function ChatInput({ chatId }: Props) {
             </div>
             <form
                 onSubmit={_handleSubmit}
-                className="w-full max-w-3xl relative flex items-center overflow-y-auto rounded-lg bg-[#40414f] py-3 pl-4 pr-12"
+                className="w-full max-w-3xl relative flex items-center overflow-y-auto rounded-lg bg-[#40414f] py-3 pl-4 pr-11"
             >
                 <Textarea
                     placeholder="Send a message"
+                    ref={inputRef}
                     rows={1}
                     maxRows={8}
                     spellCheck={false}
@@ -173,13 +177,13 @@ function ChatInput({ chatId }: Props) {
                     onChange={_handleInputChange}
                 />
                 {isLoading ? (
-                    <div className="absolute right-3 bottom-2 p-2 flex items-center ">
+                    <div className="absolute right-2 bottom-2 p-2 flex items-center ">
                         <BlinkingDots />
                     </div>
                 ) : (
                     <button
                         type="submit"
-                        className={`absolute right-3 bottom-2 p-2 flex items-center rounded-lg ${
+                        className={`absolute right-2 bottom-2 p-2 flex items-center rounded-lg ${
                             !isEmpty && 'bg-[#19c37d]'
                         } ${isEmpty && 'pointer-events-none text-gray-400'} duration-200`}
                     >
