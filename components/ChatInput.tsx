@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, FormEvent } from 'react';
+import { useEffect, ChangeEvent, FormEvent, KeyboardEvent } from 'react';
 import { useState, useRef } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
@@ -44,47 +44,54 @@ function ChatInput({ chatId }: Props) {
             setResAction('STOP');
         },
         onFinish: async (message) => {
-            handleMessage(!!input, input, message.content);
+            await handleMessage(!!input, input, message.content);
         },
     });
-    const _handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const _handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         handleInputChange(e);
         e.target.value.trim() ? setIsEmpty(false) : setIsEmpty(true);
     };
 
+    const addMessageDB = async (user: string, assistant: string) => {
+        const data: Data = {
+            user: {
+                id: uuidV4(),
+                content: user,
+                role: 'user',
+            },
+            assistant: {
+                id: uuidV4(),
+                content: assistant || 'ChatGPT cannot find the answer for that question!',
+                role: 'assistant',
+            },
+            createdAt: new Date(),
+        };
+        const res = await addDoc(collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'), data);
+        return res;
+    };
+
+    const updateMessageDB = async (message: string) => {
+        updateDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', memory.lastMessageID), {
+            'assistant.content': message || 'ChatGPT cannot find the answer for that question!',
+            createdAt: new Date(),
+        });
+    };
+
     const handleMessage = async (condition: boolean, userMessage: string, assistantMessage: string) => {
         if (condition) {
-            const data: Data = {
-                user: {
-                    id: uuidV4(),
-                    content: userMessage,
-                    role: 'user',
-                },
-                assistant: {
-                    id: uuidV4(),
-                    content: assistantMessage || 'ChatGPT cannot find the answer for that question!',
-                    role: 'assistant',
-                },
-                createdAt: new Date(),
-            };
-            const res = await addDoc(collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'), data);
+            const res = await addMessageDB(userMessage, assistantMessage);
             setMemory((prev) => {
                 return {
                     chatLength: prev.chatLength + 1,
                     lastMessageID: res.id,
                 };
             });
-        } else {
-            updateDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', memory.lastMessageID), {
-                'assistant.content': assistantMessage || 'ChatGPT cannot find the answer for that question!',
-                createdAt: new Date(),
-            });
-        }
+        } else await updateMessageDB(assistantMessage);
         if (messages.length === 0) addTitle(input, chatId, session);
         setResAction('REGENERATE');
     };
 
-    const _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const _handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setResAction(null);
         setIsEmpty(true);
@@ -105,7 +112,7 @@ function ChatInput({ chatId }: Props) {
         reload();
     };
 
-    const handleTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const handleTextareaKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             _handleSubmit(e as any);
