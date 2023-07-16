@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, FormEvent } from 'react';
 import { useState, useRef } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
@@ -83,6 +83,7 @@ function ChatInput({ chatId }: Props) {
         e.target.value.trim() ? setIsEmpty(false) : setIsEmpty(true);
     };
     const _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         setResAction(null);
         setIsEmpty(true);
         inputRef.current?.focus();
@@ -121,6 +122,13 @@ function ChatInput({ chatId }: Props) {
     };
     const handleRegenerateAction = () => {
         reload();
+    };
+
+    const handleTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            _handleSubmit(e as any);
+        }
     };
 
     const updateMemo = async () => {
@@ -167,6 +175,7 @@ function ChatInput({ chatId }: Props) {
                 <Textarea
                     placeholder="Send a message"
                     ref={inputRef}
+                    onKeyDown={handleTextareaKeyDown}
                     rows={1}
                     maxRows={8}
                     spellCheck={false}

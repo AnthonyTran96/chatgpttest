@@ -45,8 +45,8 @@ function ChatDialog({ chatId }: Props) {
             {messages.map((m) => (
                 <ChatRow
                     key={m.id}
-                    content={m.content}
-                    role={m.role || 'ChatGPT cannot find the answer for that question!'}
+                    content={m.content || 'ChatGPT cannot find the answer for that question!'}
+                    role={m.role}
                     avatar={m.role === 'assistant' ? '/ChatGPT-Icon-Logo-PNG.png' : session?.user?.image!}
                 />
             ))}
