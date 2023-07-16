@@ -44,44 +44,46 @@ function ChatInput({ chatId }: Props) {
             setResAction('STOP');
         },
         onFinish: async (message) => {
-            if (input) {
-                const data: Data = {
-                    user: {
-                        id: uuidV4(),
-                        content: input,
-                        role: 'user',
-                    },
-                    assistant: {
-                        id: uuidV4(),
-                        content: message.content || 'ChatGPT cannot find the answer for that question!',
-                        role: 'assistant',
-                    },
-                    createdAt: new Date(),
-                };
-                const res = await addDoc(
-                    collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'),
-                    data,
-                );
-                setMemory((prev) => {
-                    return {
-                        chatLength: prev.chatLength + 1,
-                        lastMessageID: res.id,
-                    };
-                });
-            } else {
-                updateDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', memory.lastMessageID), {
-                    'assistant.content': message.content || 'ChatGPT cannot find the answer for that question!',
-                    createdAt: new Date(),
-                });
-            }
-            if (messages.length === 0) addTitle(input, chatId, session);
-            setResAction('REGENERATE');
+            handleMessage(!!input, input, message.content);
         },
     });
     const _handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         handleInputChange(e);
         e.target.value.trim() ? setIsEmpty(false) : setIsEmpty(true);
     };
+
+    const handleMessage = async (condition: boolean, userMessage: string, assistantMessage: string) => {
+        if (condition) {
+            const data: Data = {
+                user: {
+                    id: uuidV4(),
+                    content: userMessage,
+                    role: 'user',
+                },
+                assistant: {
+                    id: uuidV4(),
+                    content: assistantMessage || 'ChatGPT cannot find the answer for that question!',
+                    role: 'assistant',
+                },
+                createdAt: new Date(),
+            };
+            const res = await addDoc(collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'), data);
+            setMemory((prev) => {
+                return {
+                    chatLength: prev.chatLength + 1,
+                    lastMessageID: res.id,
+                };
+            });
+        } else {
+            updateDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', memory.lastMessageID), {
+                'assistant.content': assistantMessage || 'ChatGPT cannot find the answer for that question!',
+                createdAt: new Date(),
+            });
+        }
+        if (messages.length === 0) addTitle(input, chatId, session);
+        setResAction('REGENERATE');
+    };
+
     const _handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setResAction(null);
@@ -92,34 +94,13 @@ function ChatInput({ chatId }: Props) {
 
     const handleStopAction = async () => {
         stop();
-        if (memory.chatLength * 2 === messages.length) {
-            console.log(messages);
-            updateDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', memory.lastMessageID), {
-                'assistant.content':
-                    messages[messages.length - 1].content || 'ChatGPT cannot find the answer for that question!',
-                createdAt: new Date(),
-            });
-        } else {
-            const data: Data = {
-                user: {
-                    id: uuidV4(),
-                    content: messages[messages.length - 2].content,
-                    role: 'user',
-                },
-                assistant: {
-                    id: uuidV4(),
-                    content: messages[messages.length - 1].content,
-                    role: 'assistant',
-                },
-                createdAt: new Date(),
-            };
-
-            await addDoc(collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'), data);
-        }
-
-        if (messages.length === 2) addTitle(messages[0].content, chatId, session);
-        setResAction('REGENERATE');
+        await handleMessage(
+            memory.chatLength * 2 !== messages.length,
+            messages[messages.length - 2].content,
+            messages[messages.length - 1].content,
+        );
     };
+
     const handleRegenerateAction = () => {
         reload();
     };
