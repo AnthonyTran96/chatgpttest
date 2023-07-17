@@ -135,7 +135,7 @@ function ChatInput({ chatId }: Props) {
     }, []);
 
     return (
-        <div className="relative bottom-0 w-full max-w-3xl p-4 mx-auto border-t-[0.5px] border-gray-600 bg-[#343541] flex flex-col justify-center items-center md:border-none ">
+        <div className="relative bottom-0 w-full max-w-3xl p-4 mx-auto border-t-[0.5px] border-gray-600 flex flex-col justify-center items-center md:border-none ">
             <div className={`hidden ${messages.length > 0 && resAction && 'md:block'}`}>
                 {resAction === 'STOP' && (
                     <button
