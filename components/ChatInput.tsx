@@ -147,10 +147,7 @@ function ChatInput({ chatId }: Props) {
                     </button>
                 )}
                 {resAction === 'REGENERATE' && (
-                    <button
-                        className="flex items-center space-x-2 p-2 border mb-3 text-sm border-gray-600 rounded-md hover:bg-gray-500/20"
-                        onClick={handleRegenerateAction}
-                    >
+                    <button className="custom-btn mb-3 space-x-2" onClick={handleRegenerateAction}>
                         <ArrowPathIcon className="w-4 h-4" />
                         <p>Regenerate Response</p>
                     </button>
