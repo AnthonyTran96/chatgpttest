@@ -5,6 +5,7 @@ import { collection, orderBy, query, getDocs } from 'firebase/firestore';
 import { useChat, Message } from 'ai/react';
 import { useEffect, useRef } from 'react';
 import { db } from '@/firebase';
+import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
 
 type Props = {
     chatId: string;
@@ -42,6 +43,12 @@ function ChatDialog({ chatId }: Props) {
 
     return (
         <div className="flex flex-col flex-1 w-full h-full overflow-y-auto " ref={DialogRef}>
+            {messages.length === 0 && (
+                <>
+                    <p className="text-center mt-10 ">Type a prompt in below to get started!</p>
+                    <ArrowDownCircleIcon className="h-10 w-10 mx-auto mt-5 text-white animate-bounce" />
+                </>
+            )}
             {messages.map((m) => (
                 <ChatRow
                     key={m.id}
