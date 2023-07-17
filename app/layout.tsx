@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 // import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import Login from '@/components/Login';
-import NewChat from '@/components/NewChat';
+import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import { ContextProvider } from '@/components/ContextProvider';
 
@@ -24,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     ) : (
                         <ContextProvider>
                             <div className=" w-screen h-screen relative">
-                                <NewChat />
+                                <Header />
                                 <div className="flex w-full h-full flex-1">
                                     <Sidebar />
                                     <div className="h-full bg-[#343541] flex-1 pt-[45px] w-full md:pt-0">
