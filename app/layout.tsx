@@ -1,8 +1,7 @@
 import './globals.css';
 import SectionProvider from '@/components/SessionProvider';
 import { getServerSession } from 'next-auth';
-// import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { authOptions } from './api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/nextAuth/authOptions';
 import Login from '@/components/Login';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
