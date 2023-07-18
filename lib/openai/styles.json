@@ -3,25 +3,25 @@
         "style": "Creative",
         "default": false,
         "params": {
-            "model": "gpt-3.5-turbo",
+            "model": "gpt-3.5-turbo-16k",
             "temperature": 0.9,
             "top_p": 0.8
         }
     },
     {
         "style": "Balanced",
-        "default": false,
+        "default": true,
         "params": {
-            "model": "gpt-3.5-turbo",
+            "model": "gpt-3.5-turbo-16k",
             "temperature": 0.6,
             "top_p": 0.6
         }
     },
     {
         "style": "Precise",
-        "default": true,
+        "default": false,
         "params": {
-            "model": "gpt-3.5-turbo",
+            "model": "gpt-3.5-turbo-16k",
             "temperature": 0.2,
             "top_p": 0.2
         }
