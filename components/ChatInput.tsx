@@ -135,6 +135,9 @@ function ChatInput({ chatId }: Props) {
     };
     useEffect(() => {
         chatId && updateMemo();
+        return () => {
+            stop();
+        };
     }, []);
 
     return (
