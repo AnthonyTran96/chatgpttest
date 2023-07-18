@@ -4,6 +4,7 @@ import { createContext, useState } from 'react';
 interface ContextProps {
     sidebarDisable: boolean;
     chatTitle: string;
+    modelParams: ModelParams;
     setNewProp: (propName: string, newValue: any) => void;
 }
 
@@ -14,12 +15,14 @@ type Props = {
 export const Context = createContext<ContextProps>({
     sidebarDisable: true,
     chatTitle: 'New Chat',
+    modelParams: { model: 'gpt-3.5-turbo' },
     setNewProp: () => {},
 });
 
 export const ContextProvider = ({ children }: Props) => {
     const [sidebarDisable, setSidebarDisable] = useState(true);
     const [chatTitle, setChatTitle] = useState('New Chat');
+    const [modelParams, setModelParams] = useState({ model: 'gpt-3.5-turbo' });
 
     const setNewProp = (propName: string, newValue: any) => {
         switch (propName) {
@@ -29,6 +32,9 @@ export const ContextProvider = ({ children }: Props) => {
             case 'chatTitle':
                 setChatTitle(newValue);
                 break;
+            case 'modelParams':
+                setModelParams(newValue);
+                break;
             default:
                 break;
         }
@@ -37,6 +43,7 @@ export const ContextProvider = ({ children }: Props) => {
     const contextValue: ContextProps = {
         sidebarDisable,
         chatTitle,
+        modelParams,
         setNewProp,
     };
 

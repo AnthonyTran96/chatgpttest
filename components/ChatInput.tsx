@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, ChangeEvent, FormEvent, KeyboardEvent } from 'react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import { addDoc, collection, updateDoc, getDocs, query, orderBy, doc } from 'firebase/firestore';
@@ -11,6 +11,7 @@ import { useChat, Message } from 'ai/react';
 import addTitle from '@/lib/actions/addTitle';
 import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
 import Textarea from 'react-textarea-autosize';
+import { Context } from './ContextProvider';
 
 type Props = {
     chatId: string;
@@ -31,6 +32,7 @@ type Memo = {
 
 function ChatInput({ chatId }: Props) {
     const { data: session } = useSession();
+    const { modelParams } = useContext(Context);
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const [isEmpty, setIsEmpty] = useState(true);
     const [resAction, setResAction] = useState<Action>('REGENERATE');
@@ -46,6 +48,7 @@ function ChatInput({ chatId }: Props) {
         onFinish: async (message) => {
             await handleMessage(!!input, input, message.content);
         },
+        body: { modelParams },
     });
     const _handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         handleInputChange(e);
