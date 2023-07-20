@@ -15,7 +15,7 @@ import { addMessageDB, updateMessageDB, getMessagesIds } from '@/lib/firebase';
 
 function ChatInput({ chatId }: ChatProps) {
     const { data: session } = useSession();
-    const { modelParams } = useContext(Context);
+    const { chats, modelParams, setNewProp } = useContext(Context);
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const [isEmpty, setIsEmpty] = useState(true);
     const [resAction, setResAction] = useState<ChatAction>('REGENERATE');
@@ -48,8 +48,20 @@ function ChatInput({ chatId }: ChatProps) {
                 };
             });
         } else await updateMessageDB(assistantMessage, chatId, memory.lastMessageID, session);
-        if (messages.length === 0) addTitle(input, chatId, session);
         setResAction('REGENERATE');
+        if (messages.length === 0) {
+            const newTitle = await addTitle(input, chatId, session);
+            const newChats = chats.map((chat) => {
+                if (chat.id === chatId) {
+                    return {
+                        ...chat,
+                        title: newTitle,
+                    };
+                }
+                return chat;
+            });
+            setNewProp('chats', newChats);
+        }
     };
 
     const _handleSubmit = (e: FormEvent<HTMLFormElement>) => {
