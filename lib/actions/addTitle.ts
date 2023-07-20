@@ -1,5 +1,5 @@
 'use server';
-import titleQuery from '@/lib/openai/titleQuery';
+import { titleQuery } from '@/lib/openai/';
 import { db } from '@/firebase';
 import { updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { Session } from 'next-auth';

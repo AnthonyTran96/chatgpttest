@@ -1,7 +1,9 @@
-import { conversationStyles } from '@/lib/openai/conversationStyles';
-import StyleButton from './StyleButton';
+'use client';
 import { useEffect, useState, useContext } from 'react';
+
+import StyleButton from './StyleButton';
 import { Context } from './ContextProvider';
+import { conversationStyles } from '@/lib/openai';
 
 function StyleSelection() {
     const { setNewProp } = useContext(Context);

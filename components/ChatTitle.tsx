@@ -1,13 +1,15 @@
+'use client';
+import React from 'react';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import { useContext, useEffect, useState, useRef } from 'react';
 import { ChatBubbleLeftIcon, TrashIcon, XMarkIcon, CheckIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
-import React from 'react';
-import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { db } from '@/firebase';
-import { Context } from './ContextProvider';
 import { useChat } from 'ai/react';
+import Link from 'next/link';
+
+import { Context } from './ContextProvider';
+import { db } from '@/firebase';
 
 type Props = {
     title: string;

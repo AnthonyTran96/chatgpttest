@@ -4,14 +4,15 @@ import { useState, useRef, useContext } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import { addDoc, collection, updateDoc, getDocs, query, orderBy, doc } from 'firebase/firestore';
-import { db } from '@/firebase';
-import BlinkingDots from './BlinkingDots';
-import { v4 as uuidV4 } from 'uuid';
 import { useChat, Message } from 'ai/react';
-import addTitle from '@/lib/actions/addTitle';
 import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
+import { v4 as uuidV4 } from 'uuid';
 import Textarea from 'react-textarea-autosize';
+
+import BlinkingDots from './BlinkingDots';
 import { Context } from './ContextProvider';
+import { db } from '@/firebase';
+import { addTitle } from '@/lib/actions';
 
 type Props = {
     chatId: string;

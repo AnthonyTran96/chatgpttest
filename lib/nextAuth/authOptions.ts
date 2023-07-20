@@ -1,6 +1,6 @@
 import GoogleProvider from 'next-auth/providers/google';
 
-export const authOptions = {
+const authOptions = {
     // Configure one or more authentication providers
     providers: [
         GoogleProvider({
@@ -10,3 +10,5 @@ export const authOptions = {
         // ...add more providers here
     ],
 };
+
+export default authOptions;

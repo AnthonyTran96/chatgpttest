@@ -1,11 +1,12 @@
 'use client';
-import ChatRow from '@/components/ChatRow';
 import { useSession } from 'next-auth/react';
 import { collection, orderBy, query, getDocs } from 'firebase/firestore';
 import { useChat, Message } from 'ai/react';
 import { useEffect, useRef, useState } from 'react';
-import { db } from '@/firebase';
 import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
+
+import ChatRow from './ChatRow';
+import { db } from '@/firebase';
 
 type Props = {
     chatId: string;

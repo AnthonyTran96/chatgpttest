@@ -6,14 +6,9 @@
 // frequency_penalty: Điều chỉnh sự lặp lại của cụm từ trong câu trả lời. Giá trị càng cao, mô hình sẽ tránh tái sử dụng các cụm từ đã xuất hiện trước đó.
 // presence_penalty: Điều chỉnh sự xuất hiện của các cụm từ không liên quan trong câu trả lời. Giá trị càng cao, mô hình sẽ tránh sử dụng các cụm từ không liên quan.
 
-import { Configuration, OpenAIApi } from 'openai-edge';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 
-// Create an OpenAI API client (that's edge friendly!)
-const config = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(config);
+import { openai } from '@/lib/openai';
 
 // Set the runtime to edge for best performance
 export const runtime = 'edge';

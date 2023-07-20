@@ -1,11 +1,7 @@
 import './globals.css';
-import SectionProvider from '@/components/SessionProvider';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/nextAuth/authOptions';
-import Login from '@/components/Login';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import { ContextProvider } from '@/components/ContextProvider';
+import { ContextProvider, SectionProvider, Login, Navbar, Sidebar } from '@/components';
+import { authOptions } from '@/lib/nextAuth';
 
 export const metadata = {
     title: 'ChatGPT-Advanced',

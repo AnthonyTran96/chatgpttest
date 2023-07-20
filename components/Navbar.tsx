@@ -1,11 +1,13 @@
 'use client';
-import { Bars3Icon, PlusIcon } from '@heroicons/react/24/outline';
 import { useContext, useRef } from 'react';
-import { Context } from './ContextProvider';
 import { serverTimestamp, addDoc, collection } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
-import { db } from '@/firebase';
 import { useSession } from 'next-auth/react';
+
+import { Bars3Icon, PlusIcon } from '@heroicons/react/24/outline';
+import { Context } from './ContextProvider';
+import { db } from '@/firebase';
+
 function Navbar() {
     const { chatTitle, setNewProp } = useContext(Context);
     const { data: session } = useSession();

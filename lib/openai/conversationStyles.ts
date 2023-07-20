@@ -4,7 +4,7 @@ interface ConversationStyle {
     params: ModelParams;
 }
 
-export const conversationStyles: ConversationStyle[] = [
+const conversationStyles: ConversationStyle[] = [
     {
         style: 'Creative',
         default: false,
@@ -33,3 +33,5 @@ export const conversationStyles: ConversationStyle[] = [
         },
     },
 ];
+
+export default conversationStyles;

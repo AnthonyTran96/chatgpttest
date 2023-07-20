@@ -1,15 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { PlusIcon, ArrowRightOnRectangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { signOut, useSession } from 'next-auth/react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
+import { addDoc, collection, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { PlusIcon, ArrowRightOnRectangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+
 import ChatTitle from './ChatTitle';
 import StyleSelection from './StyleSelection';
 import { Context } from './ContextProvider';
 import { db } from '@/firebase';
-import { addDoc, collection, orderBy, query, serverTimestamp } from 'firebase/firestore';
 
 function Sidebar() {
     const { data: session } = useSession();

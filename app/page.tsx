@@ -1,5 +1,4 @@
-import Footer from '@/components/Footer';
-import HomeContent from '@/components/HomeContent';
+import { Footer, HomeContent } from '@/components';
 
 export default function Home() {
     return (
