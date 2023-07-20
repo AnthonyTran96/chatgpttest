@@ -1,6 +1,8 @@
-import getMessageDB from './getMessageDB';
-import getAllMessagesInfo from './getAllMessagesInfo';
+import getMessagesDB from './getMessagesDB';
+import getMessagesIds from './getAllMessagesInfo';
 import updateMessageDB from './updateMessageDB';
 import addMessageDB from './addMessageDB';
+import deleteChatDB from './deleteChatDB';
+import updateChatTitleDB from './updateChatTitleDB';
 
-export { getMessageDB, getAllMessagesInfo, updateMessageDB, addMessageDB };
+export { getMessagesDB, getMessagesIds, updateMessageDB, addMessageDB, deleteChatDB, updateChatTitleDB };

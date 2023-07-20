@@ -1,11 +1,11 @@
 'use client';
 import { useSession } from 'next-auth/react';
-import { useChat, Message } from 'ai/react';
+import { useChat } from 'ai/react';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
 
 import ChatRow from './ChatRow';
-import { getMessageDB } from '@/lib/firebase';
+import { getMessagesDB } from '@/lib/firebase';
 import { ChatProps } from '@/types';
 
 function ChatDialog({ chatId }: ChatProps) {
@@ -15,7 +15,7 @@ function ChatDialog({ chatId }: ChatProps) {
         id: 'ChatGPT',
     });
     const getMessage = async () => {
-        const data = await getMessageDB(session, chatId);
+        const data = await getMessagesDB(chatId, session);
         setMessages(data);
         setLoading(false);
     };

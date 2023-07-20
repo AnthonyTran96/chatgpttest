@@ -5,7 +5,7 @@ import { Message } from 'ai/react';
 
 import { db } from '@/firebase';
 
-const getMessageDB = async (session: Session | null, chatId: string) => {
+const getMessagesDB = async (chatId: string, session: Session | null) => {
     const res = query(
         collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'),
         orderBy('createdAt', 'asc'),
@@ -16,4 +16,4 @@ const getMessageDB = async (session: Session | null, chatId: string) => {
     return data;
 };
 
-export default getMessageDB;
+export default getMessagesDB;

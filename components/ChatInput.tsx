@@ -11,7 +11,7 @@ import BlinkingDots from './BlinkingDots';
 import { Context } from './ContextProvider';
 import { ChatProps, ChatAction, ChatMemo } from '@/types';
 import { addTitle } from '@/lib/utils';
-import { addMessageDB, updateMessageDB, getAllMessagesInfo } from '@/lib/firebase';
+import { addMessageDB, updateMessageDB, getMessagesIds } from '@/lib/firebase';
 
 function ChatInput({ chatId }: ChatProps) {
     const { data: session } = useSession();
@@ -40,11 +40,11 @@ function ChatInput({ chatId }: ChatProps) {
 
     const handleMessage = async (condition: boolean, userMessage: string, assistantMessage: string) => {
         if (condition) {
-            const res = await addMessageDB(userMessage, assistantMessage, chatId, session);
+            const newId = await addMessageDB(userMessage, assistantMessage, chatId, session);
             setMemory((prev) => {
                 return {
                     chatLength: prev.chatLength + 1,
-                    lastMessageID: res.id,
+                    lastMessageID: newId,
                 };
             });
         } else await updateMessageDB(assistantMessage, chatId, memory.lastMessageID, session);
@@ -81,7 +81,7 @@ function ChatInput({ chatId }: ChatProps) {
     };
 
     const updateMemo = async () => {
-        const messageIds = await getAllMessagesInfo(chatId, session);
+        const messageIds = await getMessagesIds(chatId, session);
         setMemory({
             lastMessageID: messageIds.length > 0 ? messageIds[0] : '',
             chatLength: messageIds.length,

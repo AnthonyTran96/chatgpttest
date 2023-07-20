@@ -21,7 +21,7 @@ const addMessageDB = async (user: string, assistant: string, chatId: string, ses
         createdAt: new Date(),
     };
     const res = await addDoc(collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'), data);
-    return res;
+    return res.id;
 };
 
 export default addMessageDB;

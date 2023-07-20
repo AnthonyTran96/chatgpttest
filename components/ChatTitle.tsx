@@ -1,6 +1,5 @@
 'use client';
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -8,7 +7,7 @@ import { ChatBubbleLeftIcon, TrashIcon, XMarkIcon, CheckIcon, PencilSquareIcon }
 import Link from 'next/link';
 
 import { Context } from './ContextProvider';
-import { db } from '@/firebase';
+import { deleteChatDB, updateChatTitleDB } from '@/lib/firebase';
 import { ChatTitleProps, SelectOption } from '@/types';
 
 function ChatTitle({ title, id }: ChatTitleProps) {
@@ -34,16 +33,14 @@ function ChatTitle({ title, id }: ChatTitleProps) {
         e.preventDefault();
         if (selectOption === null) return;
         if (selectOption === 'delete') {
-            deleteDoc(doc(db, 'users', session?.user?.email!, 'chats', id));
+            deleteChatDB(id, session);
             setNewProp('chatTitle', 'New Chat');
             setMessages([]);
             router.replace('/');
             return;
         }
         if (selectOption === 'change') {
-            updateDoc(doc(db, 'users', session?.user?.email!, 'chats', id), {
-                title: updateTitle,
-            });
+            updateChatTitleDB(id, updateTitle, session);
             setSelectOption(null);
             return;
         }
