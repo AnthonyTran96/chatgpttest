@@ -14,7 +14,7 @@ function ChatTitle({ title, id }: ChatTitleProps) {
     const { setMessages } = useChat({
         id: 'ChatGPT',
     });
-    const { setNewProp } = useContext(Context);
+    const { chats, setNewProp } = useContext(Context);
     const [updateTitle, setUpdateTitle] = useState(title);
     const inputRef = useRef<HTMLInputElement>(null);
     const titleRef = useRef<HTMLAnchorElement>(null);
@@ -24,26 +24,38 @@ function ChatTitle({ title, id }: ChatTitleProps) {
     const router = useRouter();
     const isActive = pathname?.includes(id);
 
-    const handleChangeButton = async () => {
-        await setSelectOption('change');
-        if (inputRef.current) inputRef.current.focus();
-    };
-
     const handleCheckOption = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         e.preventDefault();
         if (selectOption === null) return;
         if (selectOption === 'delete') {
-            deleteChatDB(id, session);
+            const newChats = chats.filter((chat) => chat.id !== id);
+            setNewProp('chats', newChats);
             setNewProp('chatTitle', 'New Chat');
             setMessages([]);
             router.replace('/');
+            deleteChatDB(id, session);
             return;
         }
         if (selectOption === 'change') {
+            const newChats = chats.map((chat) => {
+                if (chat.id === id) {
+                    return {
+                        ...chat,
+                        title: updateTitle,
+                    };
+                }
+                return chat;
+            });
+            setNewProp('chats', newChats);
             updateChatTitleDB(id, updateTitle, session);
             setSelectOption(null);
             return;
         }
+    };
+
+    const handleChangeButton = async () => {
+        await setSelectOption('change');
+        if (inputRef.current) inputRef.current.focus();
     };
 
     const handleDeleteOption = () => {

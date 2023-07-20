@@ -59,10 +59,16 @@ export interface languageMap {
     [key: string]: string | undefined;
 }
 
+export interface Chat {
+    id: string;
+    title: string;
+}
+
 export interface ContextProps {
     sidebarDisable: boolean;
     chatTitle: string;
     modelParams: ModelParams;
+    chats: Chat[];
     setNewProp: (propName: string, newValue: any) => void;
 }
 

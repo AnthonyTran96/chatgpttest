@@ -1,28 +1,42 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import { signOut, useSession } from 'next-auth/react';
-import { useCollection } from 'react-firebase-hooks/firestore';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
-import { collection, orderBy, query } from 'firebase/firestore';
+import { useContext, useEffect, useState } from 'react';
 import { PlusIcon, ArrowRightOnRectangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { v4 as uuidV4 } from 'uuid';
 
 import { ChatTitle, StyleSelection, Context } from '@/components';
 import { addNewChat } from '@/lib/utils';
-import { db } from '@/firebase';
+import { getAllChatsDB } from '@/lib/firebase';
 
 function Sidebar() {
     const { data: session } = useSession();
-    const { sidebarDisable, setNewProp } = useContext(Context);
+    const { sidebarDisable, chats, setNewProp } = useContext(Context);
     const router = useRouter();
-    const [chats, loading, error] = useCollection(
-        session && query(collection(db, 'users', session?.user?.email!, 'chats'), orderBy('createdAt', 'asc')),
-    );
+    const [loading, setLoading] = useState(true);
 
     const handleAddChat = async () => {
-        addNewChat(session, router);
+        const newId = uuidV4();
+        setNewProp('chats', [
+            ...chats,
+            {
+                id: newId,
+                title: 'New Chat',
+            },
+        ]);
         setNewProp('sidebarDisable', true);
+        addNewChat(newId, session, router);
     };
+
+    const getChats = async () => {
+        const chats = await getAllChatsDB(session);
+        setNewProp('chats', chats);
+        setLoading(false);
+    };
+    useEffect(() => {
+        getChats();
+    }, []);
 
     return (
         <>
@@ -59,17 +73,11 @@ function Sidebar() {
                 )}
                 {chats && (
                     <div className="mt-2 overflow-y-auto">
-                        {chats.docs.map((chat) => {
-                            return <ChatTitle key={chat.id} title={chat.data().title} id={chat.id} />;
+                        {chats.map((chat) => {
+                            return <ChatTitle key={chat.id} title={chat.title} id={chat.id} />;
                         })}
                     </div>
                 )}
-                {error && (
-                    <div className="flex flex-1 justify-center items-center">
-                        <p>{error.message}</p>
-                    </div>
-                )}
-
                 <div className="absolute bottom-0 left-0 w-full bg-[#202123]  px-2 ">
                     <div className="w-full border-t-[0.5px] border-gray-600 px-2 py-4">
                         <div className="flex space-x-2 items-center">

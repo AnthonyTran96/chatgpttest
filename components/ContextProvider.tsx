@@ -6,6 +6,7 @@ export const Context = createContext<ContextProps>({
     sidebarDisable: true,
     chatTitle: 'New Chat',
     modelParams: { model: 'gpt-3.5-turbo' },
+    chats: [],
     setNewProp: () => {},
 });
 
@@ -13,6 +14,7 @@ export const ContextProvider = ({ children }: Props) => {
     const [sidebarDisable, setSidebarDisable] = useState(true);
     const [chatTitle, setChatTitle] = useState('New Chat');
     const [modelParams, setModelParams] = useState({ model: 'gpt-3.5-turbo' });
+    const [chats, setChats] = useState([]);
 
     const setNewProp = (propName: string, newValue: any) => {
         switch (propName) {
@@ -25,6 +27,9 @@ export const ContextProvider = ({ children }: Props) => {
             case 'modelParams':
                 setModelParams(newValue);
                 break;
+            case 'chats':
+                setChats(newValue);
+                break;
             default:
                 break;
         }
@@ -34,6 +39,7 @@ export const ContextProvider = ({ children }: Props) => {
         sidebarDisable,
         chatTitle,
         modelParams,
+        chats,
         setNewProp,
     };
 
