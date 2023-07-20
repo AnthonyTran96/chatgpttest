@@ -3,7 +3,7 @@ import StyleButton from './StyleButton';
 import { useEffect, useState, useContext } from 'react';
 import { Context } from './ContextProvider';
 
-function ModelSelection() {
+function StyleSelection() {
     const { setNewProp } = useContext(Context);
     const [style, setStyle] = useState<string>('');
     useEffect(() => {
@@ -35,4 +35,4 @@ function ModelSelection() {
     );
 }
 
-export default ModelSelection;
+export default StyleSelection;

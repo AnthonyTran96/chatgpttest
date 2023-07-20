@@ -3,7 +3,7 @@ import SectionProvider from '@/components/SessionProvider';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/nextAuth/authOptions';
 import Login from '@/components/Login';
-import Header from '@/components/Header';
+import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { ContextProvider } from '@/components/ContextProvider';
 
@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     ) : (
                         <ContextProvider>
                             <div className=" w-screen h-screen relative">
-                                <Header />
+                                <Navbar />
                                 <div className="flex w-full h-full flex-1">
                                     <Sidebar />
                                     <div className="h-full bg-[#343541] flex-1 pt-[45px] w-full md:pt-0">

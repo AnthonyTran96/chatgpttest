@@ -6,7 +6,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import ChatTitle from './ChatTitle';
-import ModelSelection from './ModelSelection';
+import StyleSelection from './StyleSelection';
 import { Context } from './ContextProvider';
 import { db } from '@/firebase';
 import { addDoc, collection, orderBy, query, serverTimestamp } from 'firebase/firestore';
@@ -55,7 +55,7 @@ function Sidebar() {
                     <PlusIcon className="h-4 w-4 " />
                     <p className="">New chat</p>
                 </button>
-                <ModelSelection />
+                <StyleSelection />
                 {loading && (
                     <div className="flex flex-1 justify-center items-center">
                         <div className="w-6 h-6 border-4 border-gray-300 rounded-full animate-spin"></div>

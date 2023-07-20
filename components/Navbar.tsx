@@ -6,7 +6,7 @@ import { serverTimestamp, addDoc, collection } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { db } from '@/firebase';
 import { useSession } from 'next-auth/react';
-function Header() {
+function Navbar() {
     const { chatTitle, setNewProp } = useContext(Context);
     const { data: session } = useSession();
     const titleRef = useRef<HTMLHeadingElement>(null);
@@ -42,4 +42,4 @@ function Header() {
     );
 }
 
-export default Header;
+export default Navbar;
