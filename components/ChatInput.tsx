@@ -3,17 +3,15 @@ import { useEffect, ChangeEvent, FormEvent, KeyboardEvent } from 'react';
 import { useState, useRef, useContext } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
-import { addDoc, collection, updateDoc, getDocs, query, orderBy, doc } from 'firebase/firestore';
 import { useChat } from 'ai/react';
 import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
-import { v4 as uuidV4 } from 'uuid';
 import Textarea from 'react-textarea-autosize';
 
 import BlinkingDots from './BlinkingDots';
 import { Context } from './ContextProvider';
-import { db } from '@/firebase';
-import { addTitle } from '@/lib/actions';
-import { ChatProps, ChatData, ChatAction, ChatMemo } from '@/types';
+import { ChatProps, ChatAction, ChatMemo } from '@/types';
+import { addTitle } from '@/lib/utils';
+import { addMessageDB, updateMessageDB, getAllMessagesInfo } from '@/lib/firebase';
 
 function ChatInput({ chatId }: ChatProps) {
     const { data: session } = useSession();
@@ -40,41 +38,16 @@ function ChatInput({ chatId }: ChatProps) {
         e.target.value.trim() ? setIsEmpty(false) : setIsEmpty(true);
     };
 
-    const addMessageDB = async (user: string, assistant: string) => {
-        const data: ChatData = {
-            user: {
-                id: uuidV4(),
-                content: user,
-                role: 'user',
-            },
-            assistant: {
-                id: uuidV4(),
-                content: assistant || 'ChatGPT cannot find the answer for that question!',
-                role: 'assistant',
-            },
-            createdAt: new Date(),
-        };
-        const res = await addDoc(collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'), data);
-        return res;
-    };
-
-    const updateMessageDB = async (message: string) => {
-        updateDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', memory.lastMessageID), {
-            'assistant.content': message || 'ChatGPT cannot find the answer for that question!',
-            createdAt: new Date(),
-        });
-    };
-
     const handleMessage = async (condition: boolean, userMessage: string, assistantMessage: string) => {
         if (condition) {
-            const res = await addMessageDB(userMessage, assistantMessage);
+            const res = await addMessageDB(userMessage, assistantMessage, chatId, session);
             setMemory((prev) => {
                 return {
                     chatLength: prev.chatLength + 1,
                     lastMessageID: res.id,
                 };
             });
-        } else await updateMessageDB(assistantMessage);
+        } else await updateMessageDB(assistantMessage, chatId, memory.lastMessageID, session);
         if (messages.length === 0) addTitle(input, chatId, session);
         setResAction('REGENERATE');
     };
@@ -108,16 +81,13 @@ function ChatInput({ chatId }: ChatProps) {
     };
 
     const updateMemo = async () => {
-        const res = query(
-            collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'),
-            orderBy('createdAt', 'desc'),
-        );
-        const messages = await getDocs(res);
+        const messageIds = await getAllMessagesInfo(chatId, session);
         setMemory({
-            lastMessageID: messages.docs.length > 0 ? messages.docs[0].id : '',
-            chatLength: messages.docs.length,
+            lastMessageID: messageIds.length > 0 ? messageIds[0] : '',
+            chatLength: messageIds.length,
         });
     };
+
     useEffect(() => {
         chatId && updateMemo();
         return () => {

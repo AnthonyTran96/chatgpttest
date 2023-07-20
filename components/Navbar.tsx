@@ -1,25 +1,19 @@
 'use client';
 import { useContext, useRef } from 'react';
-import { serverTimestamp, addDoc, collection } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import { Bars3Icon, PlusIcon } from '@heroicons/react/24/outline';
 import { Context } from './ContextProvider';
-import { db } from '@/firebase';
+import { addNewChat } from '@/lib/utils';
 
 function Navbar() {
     const { chatTitle, setNewProp } = useContext(Context);
     const { data: session } = useSession();
-    const titleRef = useRef<HTMLHeadingElement>(null);
     const router = useRouter();
+    const titleRef = useRef<HTMLHeadingElement>(null);
     const handleAddChat = async () => {
-        const chatData = await addDoc(collection(db, 'users', session?.user?.email!, 'chats'), {
-            title: 'New Chat',
-            createdAt: serverTimestamp(),
-        });
-        router.push(`/c/${chatData.id}`);
-        setNewProp('chatTitle', 'New Chat');
+        addNewChat(session, router);
     };
     return (
         <div className="flex items-center justify-between border-b-[0.5px] border-gray-600 absolute top-0  w-full text-gray-200 bg-[#343541] md:hidden">

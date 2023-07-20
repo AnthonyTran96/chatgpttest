@@ -4,7 +4,7 @@ import ChatInput from './ChatInput';
 import ChatRow from './ChatRow';
 import ChatTitle from './ChatTitle';
 import { CodeBlock } from './Codeblock';
-import { ContextProvider } from './ContextProvider';
+import { ContextProvider, Context } from './ContextProvider';
 import Footer from './Footer';
 import HomeContent from './HomeContent';
 import Login from './Login';
@@ -23,6 +23,7 @@ export {
     ChatTitle,
     CodeBlock,
     ContextProvider,
+    Context,
     Footer,
     HomeContent,
     Login,

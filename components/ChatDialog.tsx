@@ -1,12 +1,11 @@
 'use client';
 import { useSession } from 'next-auth/react';
-import { collection, orderBy, query, getDocs } from 'firebase/firestore';
 import { useChat, Message } from 'ai/react';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
 
 import ChatRow from './ChatRow';
-import { db } from '@/firebase';
+import { getMessageDB } from '@/lib/firebase';
 import { ChatProps } from '@/types';
 
 function ChatDialog({ chatId }: ChatProps) {
@@ -16,13 +15,7 @@ function ChatDialog({ chatId }: ChatProps) {
         id: 'ChatGPT',
     });
     const getMessage = async () => {
-        const res = query(
-            collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'),
-            orderBy('createdAt', 'asc'),
-        );
-        const messages = await getDocs(res);
-        let data: Message[] = [];
-        messages.forEach((message) => (data = [...data, message.data().user, message.data().assistant]));
+        const data = await getMessageDB(session, chatId);
         setMessages(data);
         setLoading(false);
     };

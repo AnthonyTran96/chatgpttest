@@ -4,12 +4,11 @@ import { signOut, useSession } from 'next-auth/react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
-import { addDoc, collection, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { collection, orderBy, query } from 'firebase/firestore';
 import { PlusIcon, ArrowRightOnRectangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
-import ChatTitle from './ChatTitle';
-import StyleSelection from './StyleSelection';
-import { Context } from './ContextProvider';
+import { ChatTitle, StyleSelection, Context } from '@/components';
+import { addNewChat } from '@/lib/utils';
 import { db } from '@/firebase';
 
 function Sidebar() {
@@ -21,11 +20,7 @@ function Sidebar() {
     );
 
     const handleAddChat = async () => {
-        const chatData = await addDoc(collection(db, 'users', session?.user?.email!, 'chats'), {
-            title: 'New Chat',
-            createdAt: serverTimestamp(),
-        });
-        router.push(`/c/${chatData.id}`);
+        addNewChat(session, router);
         setNewProp('sidebarDisable', true);
     };
 
