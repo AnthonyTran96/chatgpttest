@@ -15,6 +15,7 @@ function StyleSelection() {
                 setNewProp('modelParams', style.params);
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <fieldset className="p-3 mt-5 mb-3 border border-gray-500 rounded-xl">

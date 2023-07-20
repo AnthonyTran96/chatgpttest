@@ -14,7 +14,6 @@ export async function POST(req: Request) {
         stream: true,
         messages,
     };
-    console.log(modelParams);
     const response = await openai.createChatCompletion(option);
 
     // Convert the response into a friendly text-stream

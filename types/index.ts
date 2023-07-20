@@ -1,6 +1,10 @@
 import { Message } from 'ai/react';
 import { Session } from 'next-auth';
 
+export interface Props {
+    children: React.ReactNode;
+}
+
 export interface ModelParams {
     model: string;
     temperature?: number;
@@ -60,10 +64,6 @@ export interface ContextProps {
     chatTitle: string;
     modelParams: ModelParams;
     setNewProp: (propName: string, newValue: any) => void;
-}
-
-export interface Props {
-    children: React.ReactNode;
 }
 
 export interface SectionProviderProps extends Props {
