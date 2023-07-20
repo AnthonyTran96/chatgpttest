@@ -1,24 +1,17 @@
 'use client';
-import React from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
-import { useContext, useEffect, useState, useRef } from 'react';
-import { ChatBubbleLeftIcon, TrashIcon, XMarkIcon, CheckIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
-import { usePathname, useRouter } from 'next/navigation';
 import { useChat } from 'ai/react';
+import { usePathname, useRouter } from 'next/navigation';
+import { ChatBubbleLeftIcon, TrashIcon, XMarkIcon, CheckIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 import { Context } from './ContextProvider';
 import { db } from '@/firebase';
+import { ChatTitleProps, SelectOption } from '@/types';
 
-type Props = {
-    title: string;
-    id: string;
-};
-
-type SelectOption = 'delete' | 'change' | null;
-
-function ChatTitle({ title, id }: Props) {
+function ChatTitle({ title, id }: ChatTitleProps) {
     const { setMessages } = useChat({
         id: 'ChatGPT',
     });

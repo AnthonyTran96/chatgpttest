@@ -1,8 +1,4 @@
-interface ConversationStyle {
-    style: string;
-    default: boolean;
-    params: ModelParams;
-}
+import { ConversationStyle } from '@/types';
 
 const conversationStyles: ConversationStyle[] = [
     {

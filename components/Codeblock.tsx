@@ -3,14 +3,7 @@ import { FC, memo } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-interface Props {
-    language: string;
-    value: string;
-}
-
-interface languageMap {
-    [key: string]: string | undefined;
-}
+import { CodeBlockProps, languageMap } from '@/types';
 
 export const programmingLanguages: languageMap = {
     javascript: '.js',
@@ -48,7 +41,7 @@ export const generateRandomString = (length: number, lowercase = false) => {
     return lowercase ? result.toLowerCase() : result;
 };
 
-const CodeBlock: FC<Props> = memo(({ language, value }) => {
+const CodeBlock: FC<CodeBlockProps> = memo(({ language, value }) => {
     return (
         <div className="codeblock w-full bg-zinc-950 font-sans rounded-md mt-5 mb-7 overflow-x-auto">
             <div className="flex w-full items-center justify-between bg-zinc-800 px-6 py-2 pr-4 text-zinc-100 rounded-t-md">

@@ -1,13 +1,9 @@
 'use client';
 import { SessionProvider as Provider } from 'next-auth/react';
-import { Session } from 'next-auth';
 
-type Props = {
-    children: React.ReactNode;
-    session: Session | null;
-};
+import { SectionProviderProps } from '@/types';
 
-function SectionProvider({ children, session }: Props) {
+function SectionProvider({ children, session }: SectionProviderProps) {
     return <Provider session={session}>{children}</Provider>;
 }
 

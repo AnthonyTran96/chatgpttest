@@ -1,8 +1,9 @@
 'use server';
-import { titleQuery } from '@/lib/openai/';
-import { db } from '@/firebase';
 import { updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { Session } from 'next-auth';
+
+import { titleQuery } from '@/lib/openai/';
+import { db } from '@/firebase';
 
 export default async function addTitle(question: string, chatId: string, session: Session | null) {
     if (!session) throw new Error('Invalid Session!!');

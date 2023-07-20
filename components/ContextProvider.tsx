@@ -1,16 +1,6 @@
 'use client';
 import { createContext, useState } from 'react';
-
-interface ContextProps {
-    sidebarDisable: boolean;
-    chatTitle: string;
-    modelParams: ModelParams;
-    setNewProp: (propName: string, newValue: any) => void;
-}
-
-type Props = {
-    children: React.ReactNode;
-};
+import { ContextProps, Props } from '@/types';
 
 export const Context = createContext<ContextProps>({
     sidebarDisable: true,

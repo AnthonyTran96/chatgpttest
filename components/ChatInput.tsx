@@ -4,7 +4,7 @@ import { useState, useRef, useContext } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import { addDoc, collection, updateDoc, getDocs, query, orderBy, doc } from 'firebase/firestore';
-import { useChat, Message } from 'ai/react';
+import { useChat } from 'ai/react';
 import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
 import { v4 as uuidV4 } from 'uuid';
 import Textarea from 'react-textarea-autosize';
@@ -13,31 +13,15 @@ import BlinkingDots from './BlinkingDots';
 import { Context } from './ContextProvider';
 import { db } from '@/firebase';
 import { addTitle } from '@/lib/actions';
+import { ChatProps, ChatData, ChatAction, ChatMemo } from '@/types';
 
-type Props = {
-    chatId: string;
-};
-
-type Data = {
-    user: Message;
-    assistant: Message;
-    createdAt: Date;
-};
-
-type Action = 'REGENERATE' | 'STOP' | null;
-
-type Memo = {
-    lastMessageID: string;
-    chatLength: number;
-};
-
-function ChatInput({ chatId }: Props) {
+function ChatInput({ chatId }: ChatProps) {
     const { data: session } = useSession();
     const { modelParams } = useContext(Context);
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const [isEmpty, setIsEmpty] = useState(true);
-    const [resAction, setResAction] = useState<Action>('REGENERATE');
-    const [memory, setMemory] = useState<Memo>({
+    const [resAction, setResAction] = useState<ChatAction>('REGENERATE');
+    const [memory, setMemory] = useState<ChatMemo>({
         lastMessageID: '',
         chatLength: 0,
     });
@@ -57,7 +41,7 @@ function ChatInput({ chatId }: Props) {
     };
 
     const addMessageDB = async (user: string, assistant: string) => {
-        const data: Data = {
+        const data: ChatData = {
             user: {
                 id: uuidV4(),
                 content: user,

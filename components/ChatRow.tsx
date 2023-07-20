@@ -5,14 +5,9 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 
 import { CodeBlock } from './Codeblock';
+import { ChatRowProps } from '@/types';
 
-type Props = {
-    content: string;
-    avatar: string;
-    role: string;
-};
-
-function ChatRow({ content, avatar, role }: Props) {
+function ChatRow({ content, avatar, role }: ChatRowProps) {
     return (
         <div className={`${role === 'assistant' ? 'bg-[#444654]' : ''} w-full`}>
             <div className="p-4 md:py-6 md:px-0 flex max-w-3xl mx-auto relative">
