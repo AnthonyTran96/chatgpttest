@@ -4,12 +4,10 @@ import { useState, useRef, useContext } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import { useChat } from 'ai/react';
-import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
 import Textarea from 'react-textarea-autosize';
 
-import BlinkingDots from './BlinkingDots';
-import { Context } from './ContextProvider';
-import { ChatProps, ChatAction, ChatMemo } from '@/types';
+import { Context, BlinkingDots, ChatActionBtn } from '@/components';
+import { ChatProps, ChatAction, ChatMemo, ChatHelpersExt } from '@/types';
 import { addTitle } from '@/lib/utils';
 import { addMessageDB, updateMessageDB, getMessagesIds } from '@/lib/firebase';
 
@@ -23,7 +21,7 @@ function ChatInput({ chatId }: ChatProps) {
         lastMessageID: '',
         chatLength: 0,
     });
-    const { input, messages, handleInputChange, handleSubmit, isLoading, reload, stop } = useChat({
+    const chatHelpers = useChat({
         id: 'ChatGPT',
         onResponse: () => {
             setResAction('STOP');
@@ -33,6 +31,8 @@ function ChatInput({ chatId }: ChatProps) {
         },
         body: { modelParams },
     });
+    const { input, messages, handleInputChange, handleSubmit, isLoading } = chatHelpers;
+
     const _handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         handleInputChange(e);
         e.target.value.trim() ? setIsEmpty(false) : setIsEmpty(true);
@@ -72,19 +72,6 @@ function ChatInput({ chatId }: ChatProps) {
         handleSubmit(e);
     };
 
-    const handleStopAction = async () => {
-        stop();
-        await handleMessage(
-            memory.chatLength * 2 !== messages.length,
-            messages[messages.length - 2].content,
-            messages[messages.length - 1].content,
-        );
-    };
-
-    const handleRegenerateAction = () => {
-        reload();
-    };
-
     const handleTextareaKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -100,6 +87,8 @@ function ChatInput({ chatId }: ChatProps) {
         });
     };
 
+    const chatHelpersExt: ChatHelpersExt = { ...chatHelpers, handleMessage, memory, resAction, setResAction };
+
     useEffect(() => {
         chatId && updateMemo();
         return () => {
@@ -110,23 +99,7 @@ function ChatInput({ chatId }: ChatProps) {
 
     return (
         <div className="relative bottom-0 w-full max-w-3xl p-4 mx-auto border-t-[0.5px] border-gray-600 flex flex-col justify-center items-center md:border-none ">
-            <div className={`hidden ${messages.length > 0 && resAction && 'md:block'}`}>
-                {resAction === 'STOP' && (
-                    <button
-                        className="flex items-center space-x-2 p-2 border mb-3 text-sm border-gray-600 rounded-md hover:bg-gray-500/20"
-                        onClick={handleStopAction}
-                    >
-                        <StopIcon className="w-4 h-4" />
-                        <p>Stop generating</p>
-                    </button>
-                )}
-                {resAction === 'REGENERATE' && (
-                    <button className="custom-btn mb-3 space-x-2" onClick={handleRegenerateAction}>
-                        <ArrowPathIcon className="w-4 h-4" />
-                        <p>Regenerate Response</p>
-                    </button>
-                )}
-            </div>
+            <ChatActionBtn chatHelpers={chatHelpersExt} />
             <form
                 onSubmit={_handleSubmit}
                 className="w-full max-w-3xl relative flex items-center overflow-y-auto rounded-lg bg-[#40414f] py-3 pl-4 pr-11"

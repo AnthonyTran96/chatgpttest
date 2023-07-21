@@ -1,4 +1,5 @@
-import { Message } from 'ai/react';
+import { Dispatch, SetStateAction } from 'react';
+import { Message, UseChatHelpers } from 'ai/react';
 import { Session } from 'next-auth';
 
 export interface Props {
@@ -79,4 +80,11 @@ export interface SectionProviderProps extends Props {
 export interface ButtonProps {
     style: string;
     active: boolean;
+}
+
+export interface ChatHelpersExt extends UseChatHelpers {
+    handleMessage: (condition: boolean, userMessage: string, assistantMessage: string) => Promise<void>;
+    memory: ChatMemo;
+    resAction: ChatAction;
+    setResAction: Dispatch<SetStateAction<ChatAction>>;
 }
