@@ -1,30 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
-import { PlusIcon, ArrowRightOnRectangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { v4 as uuidV4 } from 'uuid';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
-import { StyleSelection, Context, Chats } from '@/components';
-import { addNewChat } from '@/lib/utils';
+import { StyleSelection, Context, Chats, SidebarFooter, AddChatBtn } from '@/components';
 
 function Sidebar() {
-    const { data: session } = useSession();
-    const { sidebarDisable, chats, setNewProp } = useContext(Context);
-    const router = useRouter();
-    const handleAddChat = async () => {
-        const newId = uuidV4();
-        addNewChat(newId, session, router);
-        setNewProp('sidebarDisable', true);
-        setNewProp('chats', [
-            ...chats,
-            {
-                id: newId,
-                title: 'New Chat',
-            },
-        ]);
-    };
+    const { sidebarDisable, setNewProp } = useContext(Context);
 
     return (
         <>
@@ -46,29 +28,10 @@ function Sidebar() {
                 >
                     <XMarkIcon className="w-7 h-7" />
                 </button>
-                <button
-                    className="w-full flex items-center space-x-2 p-[10px] border border-gray-500 rounded-md  top-0 bg-[#202123] hover:bg-gray-500/25"
-                    onClick={handleAddChat}
-                >
-                    <PlusIcon className="h-4 w-4 " />
-                    <p className="">New chat</p>
-                </button>
+                <AddChatBtn />
                 <StyleSelection />
                 <Chats />
-                <div className="absolute bottom-0 left-0 w-full bg-[#202123] px-2 ">
-                    <div className="w-full border-t-[0.5px] border-gray-600 px-2 py-4">
-                        <div className="flex space-x-2 items-center">
-                            <img src={session?.user?.image!} className="w-8 h-8 rounded-sm" alt="avatar" />
-                            <p>{session?.user?.name!}</p>
-                            <div
-                                onClick={() => signOut()}
-                                className="flex items-center space-x-1 absolute right-5 cursor-pointer font-semibold"
-                            >
-                                <ArrowRightOnRectangleIcon className=" w-5 h-5" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <SidebarFooter />
             </div>
         </>
     );
