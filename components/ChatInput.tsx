@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState, useContext } from 'react';
 import { useSession } from 'next-auth/react';
-import { useChat } from 'ai/react';
+import { Message, useChat } from 'ai/react';
 
 import { Context, ChatActionBtn, ChatForm } from '@/components';
 import { ChatProps, ChatAction, ChatMemo } from '@/types';
@@ -27,10 +27,21 @@ function ChatInput({ chatId }: ChatProps) {
             if (messages.length === 0) setChatTitleById(input);
             setResAction('REGENERATE');
         },
-        onError: () => {},
+        onError: (err: Error) => {
+            const newMessage: Message[] = [...messages];
+            if (newMessage[newMessage.length - 1].role === 'assistant') {
+                newMessage[newMessage.length - 1].content =
+                    'ChatGPT cannot find the answer for that question. You can try regenerating the answer';
+            }
+            if (newMessage[newMessage.length - 1].role === 'user') {
+                newMessage[newMessage.length - 1].content = 'Invalid question. Please ask again!.';
+            }
+            console.log(err.message);
+            setMessages(newMessage);
+        },
         body: { modelParams },
     });
-    const { input, messages, stop } = chatHelpers;
+    const { input, messages, stop, setMessages } = chatHelpers;
 
     const setChatTitleById = async (prompt: string) => {
         const newTitle = await addTitle(prompt, chatId, session);
