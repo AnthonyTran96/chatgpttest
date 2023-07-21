@@ -92,4 +92,6 @@ export interface ChatActionBtnProps {
     handleMessage: (condition: boolean, userMessage: string, assistantMessage: string) => Promise<void>;
     memory: ChatMemo;
     resAction: ChatAction;
+    setResAction: Dispatch<SetStateAction<ChatAction>>;
+    setChatTitleById: (prompt: string) => Promise<void>;
 }

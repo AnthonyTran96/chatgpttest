@@ -24,10 +24,27 @@ function ChatInput({ chatId }: ChatProps) {
         },
         onFinish: async (message) => {
             await handleMessage(!!input, input, message.content);
+            if (messages.length === 0) setChatTitleById(input);
+            setResAction('REGENERATE');
         },
+        onError: () => {},
         body: { modelParams },
     });
-    const { input, messages } = chatHelpers;
+    const { input, messages, stop } = chatHelpers;
+
+    const setChatTitleById = async (prompt: string) => {
+        const newTitle = await addTitle(prompt, chatId, session);
+        const newChats = chats.map((chat) => {
+            if (chat.id === chatId) {
+                return {
+                    ...chat,
+                    title: newTitle,
+                };
+            }
+            return chat;
+        });
+        setNewProp('chats', newChats);
+    };
 
     const handleMessage = async (condition: boolean, userMessage: string, assistantMessage: string) => {
         if (condition) {
@@ -39,20 +56,6 @@ function ChatInput({ chatId }: ChatProps) {
                 };
             });
         } else await updateMessageDB(assistantMessage, chatId, memory.lastMessageID, session);
-        setResAction('REGENERATE');
-        if (messages.length === 0) {
-            const newTitle = await addTitle(input, chatId, session);
-            const newChats = chats.map((chat) => {
-                if (chat.id === chatId) {
-                    return {
-                        ...chat,
-                        title: newTitle,
-                    };
-                }
-                return chat;
-            });
-            setNewProp('chats', newChats);
-        }
     };
 
     const updateMemo = async () => {
@@ -78,6 +81,8 @@ function ChatInput({ chatId }: ChatProps) {
                 handleMessage={handleMessage}
                 memory={memory}
                 resAction={resAction}
+                setResAction={setResAction}
+                setChatTitleById={setChatTitleById}
             />
             <ChatForm chatHelpers={chatHelpers} setResAction={setResAction} />
         </div>

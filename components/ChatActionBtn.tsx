@@ -3,7 +3,14 @@ import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
 
 import { ChatActionBtnProps } from '@/types';
 
-function ChatActionBtn({ chatHelpers, handleMessage, memory, resAction }: ChatActionBtnProps) {
+function ChatActionBtn({
+    chatHelpers,
+    handleMessage,
+    memory,
+    resAction,
+    setResAction,
+    setChatTitleById,
+}: ChatActionBtnProps) {
     const { messages, stop, reload } = chatHelpers;
     const handleStopAction = async () => {
         stop();
@@ -12,6 +19,8 @@ function ChatActionBtn({ chatHelpers, handleMessage, memory, resAction }: ChatAc
             messages[messages.length - 2].content,
             messages[messages.length - 1].content,
         );
+        if (messages.length === 2) setChatTitleById(messages[messages.length - 2].content);
+        setResAction('REGENERATE');
     };
 
     const handleRegenerateAction = () => {
