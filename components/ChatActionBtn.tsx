@@ -1,13 +1,10 @@
 'use client';
-import { ChatHelpersExt } from '@/types';
 import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
 
-type Props = {
-    chatHelpers: ChatHelpersExt;
-};
+import { ChatActionBtnProps } from '@/types';
 
-function ChatActionBtn({ chatHelpers }: Props) {
-    const { messages, memory, handleMessage, stop, reload, resAction } = chatHelpers;
+function ChatActionBtn({ chatHelpers, handleMessage, memory, resAction }: ChatActionBtnProps) {
+    const { messages, stop, reload } = chatHelpers;
     const handleStopAction = async () => {
         stop();
         await handleMessage(
@@ -24,10 +21,7 @@ function ChatActionBtn({ chatHelpers }: Props) {
     return (
         <div className={`hidden ${messages.length > 0 && resAction && 'md:block'}`}>
             {resAction === 'STOP' && (
-                <button
-                    className="flex items-center space-x-2 p-2 border mb-3 text-sm border-gray-600 rounded-md hover:bg-gray-500/20"
-                    onClick={handleStopAction}
-                >
+                <button className="custom-btn mb-3 space-x-2" onClick={handleStopAction}>
                     <StopIcon className="w-4 h-4" />
                     <p>Stop generating</p>
                 </button>

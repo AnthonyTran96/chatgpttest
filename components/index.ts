@@ -18,6 +18,7 @@ import Chats from './Chats';
 import SidebarFooter from './SidebarFooter';
 import AddChatBtn from './AddChatBtn';
 import ChatActionBtn from './ChatActionBtn';
+import ChatForm from './ChatForm';
 
 export {
     BlinkingDots,
@@ -41,4 +42,5 @@ export {
     SidebarFooter,
     AddChatBtn,
     ChatActionBtn,
+    ChatForm,
 };

@@ -82,9 +82,14 @@ export interface ButtonProps {
     active: boolean;
 }
 
-export interface ChatHelpersExt extends UseChatHelpers {
+export interface ChatFormProps {
+    chatHelpers: UseChatHelpers;
+    setResAction: Dispatch<SetStateAction<ChatAction>>;
+}
+
+export interface ChatActionBtnProps {
+    chatHelpers: UseChatHelpers;
     handleMessage: (condition: boolean, userMessage: string, assistantMessage: string) => Promise<void>;
     memory: ChatMemo;
     resAction: ChatAction;
-    setResAction: Dispatch<SetStateAction<ChatAction>>;
 }
