@@ -2,22 +2,21 @@
 'use client';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { PlusIcon, ArrowRightOnRectangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { v4 as uuidV4 } from 'uuid';
 
-import { ChatTitle, StyleSelection, Context } from '@/components';
+import { StyleSelection, Context, Chats } from '@/components';
 import { addNewChat } from '@/lib/utils';
-import { getAllChatsDB } from '@/lib/firebase';
 
 function Sidebar() {
     const { data: session } = useSession();
     const { sidebarDisable, chats, setNewProp } = useContext(Context);
     const router = useRouter();
-    const [loading, setLoading] = useState(true);
-
     const handleAddChat = async () => {
         const newId = uuidV4();
+        addNewChat(newId, session, router);
+        setNewProp('sidebarDisable', true);
         setNewProp('chats', [
             ...chats,
             {
@@ -25,18 +24,7 @@ function Sidebar() {
                 title: 'New Chat',
             },
         ]);
-        setNewProp('sidebarDisable', true);
-        addNewChat(newId, session, router);
     };
-
-    const getChats = async () => {
-        const chats = await getAllChatsDB(session);
-        setNewProp('chats', chats);
-        setLoading(false);
-    };
-    useEffect(() => {
-        getChats();
-    }, []);
 
     return (
         <>
@@ -66,19 +54,8 @@ function Sidebar() {
                     <p className="">New chat</p>
                 </button>
                 <StyleSelection />
-                {loading && (
-                    <div className="flex flex-1 justify-center items-center">
-                        <div className="w-6 h-6 border-4 border-gray-300 rounded-full animate-spin"></div>
-                    </div>
-                )}
-                {chats && (
-                    <div className="mt-2 overflow-y-auto">
-                        {chats.map((chat) => {
-                            return <ChatTitle key={chat.id} title={chat.title} id={chat.id} />;
-                        })}
-                    </div>
-                )}
-                <div className="absolute bottom-0 left-0 w-full bg-[#202123]  px-2 ">
+                <Chats />
+                <div className="absolute bottom-0 left-0 w-full bg-[#202123] px-2 ">
                     <div className="w-full border-t-[0.5px] border-gray-600 px-2 py-4">
                         <div className="flex space-x-2 items-center">
                             <img src={session?.user?.image!} className="w-8 h-8 rounded-sm" alt="avatar" />

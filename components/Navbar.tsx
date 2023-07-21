@@ -9,6 +9,7 @@ import { Context } from './ContextProvider';
 import { addNewChat } from '@/lib/utils';
 
 function Navbar() {
+    console.log('hello');
     const { chatTitle, chats, setNewProp } = useContext(Context);
     const { data: session } = useSession();
     const router = useRouter();

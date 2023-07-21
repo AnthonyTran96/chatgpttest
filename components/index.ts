@@ -14,6 +14,7 @@ import SectionProvider from './SessionProvider';
 import Sidebar from './Sidebar';
 import StyleButton from './StyleButton';
 import StyleSelection from './StyleSelection';
+import Chats from './Chats';
 
 export {
     BlinkingDots,
@@ -33,4 +34,5 @@ export {
     Sidebar,
     StyleButton,
     StyleSelection,
+    Chats,
 };
