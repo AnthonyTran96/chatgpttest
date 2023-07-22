@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 
 const BlinkingDots = () => {
     const [dots, setDots] = useState(1);
@@ -37,4 +37,4 @@ const BlinkingDots = () => {
     );
 };
 
-export default BlinkingDots;
+export default memo(BlinkingDots);

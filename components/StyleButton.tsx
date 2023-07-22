@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { ButtonProps } from '@/types';
 
 function StyleButton({ style, active }: ButtonProps) {
@@ -9,4 +11,4 @@ function StyleButton({ style, active }: ButtonProps) {
     );
 }
 
-export default StyleButton;
+export default memo(StyleButton);

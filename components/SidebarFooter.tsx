@@ -1,5 +1,6 @@
 'use client';
 /* eslint-disable @next/next/no-img-element */
+import { memo } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 
@@ -24,4 +25,4 @@ function SidebarFooter() {
     );
 }
 
-export default SidebarFooter;
+export default memo(SidebarFooter);

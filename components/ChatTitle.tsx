@@ -1,7 +1,6 @@
 'use client';
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useSession } from 'next-auth/react';
-import { useChat } from 'ai/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ChatBubbleLeftIcon, TrashIcon, XMarkIcon, CheckIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -11,9 +10,6 @@ import { deleteChatDB, updateChatTitleDB } from '@/lib/firebase';
 import { ChatTitleProps, SelectOption } from '@/types';
 
 function ChatTitle({ title, id }: ChatTitleProps) {
-    const { setMessages } = useChat({
-        id: 'ChatGPT',
-    });
     const { chats, setNewProp } = useContext(Context);
     const [updateTitle, setUpdateTitle] = useState(title);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -28,11 +24,10 @@ function ChatTitle({ title, id }: ChatTitleProps) {
         e.preventDefault();
         if (selectOption === null) return;
         if (selectOption === 'delete') {
+            router.replace('/');
             const newChats = chats.filter((chat) => chat.id !== id);
             setNewProp('chats', newChats);
             setNewProp('chatTitle', 'New Chat');
-            setMessages([]);
-            router.replace('/');
             deleteChatDB(id, session);
             return;
         }
