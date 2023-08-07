@@ -1,9 +1,10 @@
 'use server';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/firebase';
-import { Session } from 'next-auth';
+import { getServerSession } from 'next-auth';
 
-const deleteMessagesDB = async (chatId: string, session: Session | null) => {
+const deleteMessagesDB = async (chatId: string) => {
+    const session = await getServerSession();
     await deleteDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId));
 };
 

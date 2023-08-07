@@ -15,7 +15,7 @@ function ChatDialog({ chatId }: ChatProps) {
         id: 'ChatGPT',
     });
     const getMessage = async () => {
-        const data = await getMessagesDB(chatId, session);
+        const data = await getMessagesDB(chatId);
         setMessages(data);
         setLoading(false);
     };

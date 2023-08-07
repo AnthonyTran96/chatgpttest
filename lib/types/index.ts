@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Message, UseChatHelpers } from 'ai/react';
-import { Session } from 'next-auth';
 
 export interface Props {
     children: React.ReactNode;
@@ -71,10 +70,6 @@ export interface ContextProps {
     modelParams: ModelParams;
     chats: Chat[];
     setNewProp: (propName: string, newValue: any) => void;
-}
-
-export interface SectionProviderProps extends Props {
-    session: Session | null;
 }
 
 export interface ButtonProps {

@@ -1,12 +1,13 @@
 'use server';
 import { collection, addDoc } from 'firebase/firestore';
-import { Session } from 'next-auth';
 import { v4 as uuidV4 } from 'uuid';
+import { getServerSession } from 'next-auth';
 
 import { db } from '@/firebase';
 import { ChatData } from '@/lib/types';
 
-const addMessageDB = async (user: string, assistant: string, chatId: string, session: Session | null) => {
+const addMessageDB = async (user: string, assistant: string, chatId: string) => {
+    const session = await getServerSession();
     const data: ChatData = {
         user: {
             id: uuidV4(),

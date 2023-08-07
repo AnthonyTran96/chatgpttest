@@ -1,11 +1,12 @@
 'use server';
 import { collection, orderBy, query, getDocs } from 'firebase/firestore';
-import { Session } from 'next-auth';
 import { Message } from 'ai/react';
 
 import { db } from '@/firebase';
+import { getServerSession } from 'next-auth';
 
-const getMessagesDB = async (chatId: string, session: Session | null) => {
+const getMessagesDB = async (chatId: string) => {
+    const session = await getServerSession();
     const res = query(
         collection(db, 'users', session?.user?.email!, 'chats', chatId, 'messages'),
         orderBy('createdAt', 'asc'),

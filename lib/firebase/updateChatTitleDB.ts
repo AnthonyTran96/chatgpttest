@@ -1,10 +1,11 @@
 'use server';
-import { Session } from 'next-auth';
 import { doc, updateDoc } from 'firebase/firestore';
+import { getServerSession } from 'next-auth';
 
 import { db } from '@/firebase';
 
-const updateChatTitleDB = async (chatId: string, updateTitle: string, session: Session | null) => {
+const updateChatTitleDB = async (chatId: string, updateTitle: string) => {
+    const session = await getServerSession();
     const updateData = {
         title: updateTitle,
     };

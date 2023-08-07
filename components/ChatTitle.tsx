@@ -28,7 +28,7 @@ function ChatTitle({ title, id }: ChatTitleProps) {
             const newChats = chats.filter((chat) => chat.id !== id);
             setNewProp('chats', newChats);
             setNewProp('chatTitle', 'New Chat');
-            deleteChatDB(id, session);
+            deleteChatDB(id);
             return;
         }
         if (selectOption === 'change') {
@@ -42,7 +42,7 @@ function ChatTitle({ title, id }: ChatTitleProps) {
                 return chat;
             });
             setNewProp('chats', newChats);
-            updateChatTitleDB(id, updateTitle, session);
+            updateChatTitleDB(id, updateTitle);
             setSelectOption(null);
             return;
         }

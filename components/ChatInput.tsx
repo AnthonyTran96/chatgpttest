@@ -59,18 +59,18 @@ function ChatInput({ chatId }: ChatProps) {
 
     const handleMessage = async (condition: boolean, userMessage: string, assistantMessage: string) => {
         if (condition) {
-            const newId = await addMessageDB(userMessage, assistantMessage, chatId, session);
+            const newId = await addMessageDB(userMessage, assistantMessage, chatId);
             setMemory((prev) => {
                 return {
                     chatLength: prev.chatLength + 1,
                     lastMessageID: newId,
                 };
             });
-        } else await updateMessageDB(assistantMessage, chatId, memory.lastMessageID, session);
+        } else await updateMessageDB(assistantMessage, chatId, memory.lastMessageID);
     };
 
     const updateMemo = async () => {
-        const messageIds = await getMessagesIds(chatId, session);
+        const messageIds = await getMessagesIds(chatId);
         setMemory({
             lastMessageID: messageIds.length > 0 ? messageIds[0] : '',
             chatLength: messageIds.length,

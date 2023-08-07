@@ -1,15 +1,13 @@
 'use client';
-import { useSession } from 'next-auth/react';
 import { getAllChatsDB } from '@/lib/firebase';
 import { useContext, useEffect, useState } from 'react';
 import { ChatTitle, Context } from '@/components';
 
 function Chats() {
-    const { data: session } = useSession();
     const { chats, setNewProp } = useContext(Context);
     const [loading, setLoading] = useState(true);
     const getChats = async () => {
-        const chats = await getAllChatsDB(session);
+        const chats = await getAllChatsDB();
         setNewProp('chats', chats);
         setLoading(false);
     };

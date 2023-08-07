@@ -6,7 +6,15 @@ function Login() {
     return (
         <div className="h-screen w-screen bg-[#11A37F] flex flex-col justify-center items-center text-center">
             <img src="/chatgpt.webp" alt="chatgpt" className="w-[300px]" />
-            <button className="text-white font-bold text-3xl animate-pulse" onClick={() => signIn('google')}>
+            <button
+                className="text-white font-bold text-3xl animate-pulse"
+                onClick={() =>
+                    signIn('google', {
+                        redirect: true,
+                        callbackUrl: '/',
+                    })
+                }
+            >
                 Sign In to use ChatGPT
             </button>
         </div>
