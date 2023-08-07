@@ -1,4 +1,4 @@
-import { ConversationStyle } from '@/types';
+import { ConversationStyle } from '@/lib/types';
 
 const conversationStyles: ConversationStyle[] = [
     {

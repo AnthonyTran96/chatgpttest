@@ -4,7 +4,7 @@ import { Session } from 'next-auth';
 import { v4 as uuidV4 } from 'uuid';
 
 import { db } from '@/firebase';
-import { ChatData } from '@/types';
+import { ChatData } from '@/lib/types';
 
 const addMessageDB = async (user: string, assistant: string, chatId: string, session: Session | null) => {
     const data: ChatData = {

@@ -6,7 +6,7 @@ import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
 
 import ChatRow from './ChatRow';
 import { getMessagesDB } from '@/lib/firebase';
-import { ChatProps } from '@/types';
+import { ChatProps } from '@/lib/types';
 
 function ChatDialog({ chatId }: ChatProps) {
     const { data: session } = useSession();

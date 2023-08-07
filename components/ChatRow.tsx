@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 
 import { CodeBlock } from './Codeblock';
-import { ChatRowProps } from '@/types';
+import { ChatRowProps } from '@/lib/types';
 
 function ChatRow({ content, avatar, role }: ChatRowProps) {
     return (

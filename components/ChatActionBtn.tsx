@@ -1,7 +1,7 @@
 'use client';
 import { ArrowPathIcon, StopIcon } from '@heroicons/react/24/outline';
 
-import { ChatActionBtnProps } from '@/types';
+import { ChatActionBtnProps } from '@/lib/types';
 
 function ChatActionBtn({
     chatHelpers,

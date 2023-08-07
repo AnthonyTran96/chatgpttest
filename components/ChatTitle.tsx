@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import { Context } from './ContextProvider';
 import { deleteChatDB, updateChatTitleDB } from '@/lib/firebase';
-import { ChatTitleProps, SelectOption } from '@/types';
+import { ChatTitleProps, SelectOption } from '@/lib/types';
 
 function ChatTitle({ title, id }: ChatTitleProps) {
     const { chats, setNewProp } = useContext(Context);

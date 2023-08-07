@@ -3,7 +3,7 @@ import { FC, memo } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-import { CodeBlockProps, languageMap } from '@/types';
+import { CodeBlockProps, languageMap } from '@/lib/types';
 
 export const programmingLanguages: languageMap = {
     javascript: '.js',

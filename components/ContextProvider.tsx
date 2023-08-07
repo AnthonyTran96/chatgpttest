@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useState } from 'react';
-import { ContextProps, Props } from '@/types';
+import { ContextProps, Props } from '@/lib/types';
 
 export const Context = createContext<ContextProps>({
     sidebarDisable: true,

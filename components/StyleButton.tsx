@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { ButtonProps } from '@/types';
+import { ButtonProps } from '@/lib/types';
 
 function StyleButton({ style, active }: ButtonProps) {
     return (

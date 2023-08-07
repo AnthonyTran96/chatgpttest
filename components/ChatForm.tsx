@@ -4,7 +4,7 @@ import Textarea from 'react-textarea-autosize';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
 import { BlinkingDots } from '@/components';
-import { ChatFormProps } from '@/types';
+import { ChatFormProps } from '@/lib/types';
 
 function ChatForm({ chatHelpers, setResAction }: ChatFormProps) {
     const { input, isLoading, handleSubmit, handleInputChange } = chatHelpers;

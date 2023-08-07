@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { Message, useChat } from 'ai/react';
 
 import { Context, ChatActionBtn, ChatForm } from '@/components';
-import { ChatProps, ChatAction, ChatMemo } from '@/types';
+import { ChatProps, ChatAction, ChatMemo } from '@/lib/types';
 import { addTitle } from '@/lib/utils';
 import { addMessageDB, updateMessageDB, getMessagesIds } from '@/lib/firebase';
 
