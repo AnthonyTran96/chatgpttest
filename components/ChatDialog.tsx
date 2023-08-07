@@ -53,7 +53,7 @@ function ChatDialog({ chatId }: ChatProps) {
                         key={m.id}
                         content={m.content || 'ChatGPT cannot find the answer for that question!'}
                         role={m.role}
-                        avatar={m.role === 'assistant' ? '/ChatGPT-Icon-Logo-PNG.png' : session?.user?.image!}
+                        avatar={m.role === 'assistant' ? '/images/ChatGPT-Icon-Logo-PNG.png' : session?.user?.image!}
                     />
                 ))}
         </div>

@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 function Login() {
     return (
         <div className="h-screen w-screen bg-[#11A37F] flex flex-col justify-center items-center text-center">
-            <img src="/chatgpt.webp" alt="chatgpt" className="w-[300px]" />
+            <img src="/images/chatgpt.jpg" alt="chatgpt" className="w-[300px]" />
             <button
                 className="text-white font-bold text-3xl animate-pulse"
                 onClick={() =>
