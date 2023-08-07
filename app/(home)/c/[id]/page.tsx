@@ -6,7 +6,7 @@ type Props = {
     };
 };
 
-function page({ params: { id } }: Props) {
+function ChatPage({ params: { id } }: Props) {
     return (
         <div className="w-full h-full flex flex-col items-center ">
             <ChatDialog chatId={id} />
@@ -15,4 +15,4 @@ function page({ params: { id } }: Props) {
     );
 }
 
-export default page;
+export default ChatPage;
