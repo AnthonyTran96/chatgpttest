@@ -90,3 +90,7 @@ export interface ChatActionBtnProps {
     setResAction: Dispatch<SetStateAction<ChatAction>>;
     setChatTitleById: (prompt: string) => Promise<void>;
 }
+
+export interface ChatUpdateData {
+    title: string;
+}

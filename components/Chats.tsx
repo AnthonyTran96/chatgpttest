@@ -8,7 +8,7 @@ function Chats() {
     const { chats, setNewProp } = useContext(Context);
     const [loading, setLoading] = useState(true);
     const getChats = async () => {
-        const res = await axios.get('/api/db/chats');
+        const res = await axios.get('/api/chats');
         const chats = await res.data.chats;
         setNewProp('chats', chats);
         setLoading(false);

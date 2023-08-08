@@ -1,13 +1,12 @@
 'use client';
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ChatBubbleLeftIcon, TrashIcon, XMarkIcon, CheckIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 import { Context } from './ContextProvider';
-import { deleteChatDB, updateChatTitleDB } from '@/lib/firebase';
-import { ChatTitleProps, SelectOption } from '@/lib/types';
+import { ChatTitleProps, ChatUpdateData, SelectOption } from '@/lib/types';
+import axios from '@/lib/axios';
 
 function ChatTitle({ title, id }: ChatTitleProps) {
     const { chats, setNewProp } = useContext(Context);
@@ -15,7 +14,6 @@ function ChatTitle({ title, id }: ChatTitleProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const titleRef = useRef<HTMLAnchorElement>(null);
     const [selectOption, setSelectOption] = useState<SelectOption>(null);
-    const { data: session } = useSession();
     const pathname = usePathname();
     const router = useRouter();
     const isActive = pathname?.includes(id);
@@ -28,7 +26,7 @@ function ChatTitle({ title, id }: ChatTitleProps) {
             const newChats = chats.filter((chat) => chat.id !== id);
             setNewProp('chats', newChats);
             setNewProp('chatTitle', 'New Chat');
-            deleteChatDB(id);
+            axios.delete(`api/chats/${id}`);
             return;
         }
         if (selectOption === 'change') {
@@ -42,7 +40,10 @@ function ChatTitle({ title, id }: ChatTitleProps) {
                 return chat;
             });
             setNewProp('chats', newChats);
-            updateChatTitleDB(id, updateTitle);
+            const updateData: ChatUpdateData = {
+                title: updateTitle,
+            };
+            axios.put(`api/chats/${id}`, { updateData });
             setSelectOption(null);
             return;
         }
