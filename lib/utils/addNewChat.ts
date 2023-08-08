@@ -1,10 +1,9 @@
-import { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 
-import { addChatDB } from '@/lib/firebase';
+import axios from '../axios';
 
-const addNewChat = async (chatId: string, session: Session | null, router?: AppRouterInstance) => {
+const addNewChat = async (chatId: string, router?: AppRouterInstance) => {
     router && router.push(`/c/${chatId}`);
-    addChatDB(chatId, session);
+    await axios.post('/api/db/chat', { id: chatId });
 };
 export default addNewChat;

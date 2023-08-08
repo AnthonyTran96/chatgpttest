@@ -1,13 +1,15 @@
 'use client';
-import { getAllChatsDB } from '@/lib/firebase';
 import { useContext, useEffect, useState } from 'react';
 import { ChatTitle, Context } from '@/components';
+
+import axios from '@/lib/axios';
 
 function Chats() {
     const { chats, setNewProp } = useContext(Context);
     const [loading, setLoading] = useState(true);
     const getChats = async () => {
-        const chats = await getAllChatsDB();
+        const res = await axios.get('/api/db/chats');
+        const chats = await res.data.chats;
         setNewProp('chats', chats);
         setLoading(false);
     };

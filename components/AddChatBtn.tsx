@@ -1,5 +1,4 @@
 'use client';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import { PlusIcon } from '@heroicons/react/24/outline';
@@ -9,12 +8,11 @@ import { addNewChat } from '@/lib/utils';
 import { Context } from '@/components';
 
 function AddChatBtn() {
-    const { data: session } = useSession();
     const router = useRouter();
     const { chats, setNewProp } = useContext(Context);
     const handleAddChat = async () => {
         const newId = uuidV4();
-        addNewChat(newId, session, router);
+        addNewChat(newId, router);
         setNewProp('sidebarDisable', true);
         setNewProp('chats', [
             ...chats,

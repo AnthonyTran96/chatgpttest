@@ -1,7 +1,6 @@
 'use client';
 import { useContext, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { v4 as uuidV4 } from 'uuid';
 
 import { Bars3Icon, PlusIcon } from '@heroicons/react/24/outline';
@@ -10,7 +9,6 @@ import { addNewChat } from '@/lib/utils';
 
 function Navbar() {
     const { chatTitle, chats, setNewProp } = useContext(Context);
-    const { data: session } = useSession();
     const router = useRouter();
     const titleRef = useRef<HTMLHeadingElement>(null);
     const handleAddChat = async () => {
@@ -22,7 +20,7 @@ function Navbar() {
                 title: 'New Chat',
             },
         ]);
-        addNewChat(newId, session, router);
+        addNewChat(newId, router);
     };
     return (
         <div className="flex items-center justify-between border-b-[0.5px] border-gray-600 absolute top-0  w-full text-gray-200 bg-[#343541] md:hidden">
