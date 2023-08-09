@@ -6,7 +6,8 @@ import { Message, useChat } from 'ai/react';
 import { Context, ChatActionBtn, ChatForm } from '@/components';
 import { ChatProps, ChatAction, ChatMemo } from '@/lib/types';
 import { addTitle } from '@/lib/utils';
-import { addMessageDB, updateMessageDB, getMessagesIds } from '@/lib/firebase';
+import { addMessageDB, updateMessageDB } from '@/lib/firebase';
+import axios from '@/lib/axios';
 
 function ChatInput({ chatId }: ChatProps) {
     const { data: session } = useSession();
@@ -70,7 +71,10 @@ function ChatInput({ chatId }: ChatProps) {
     };
 
     const updateMemo = async () => {
-        const messageIds = await getMessagesIds(chatId);
+        // const messageIds = await getMessagesIds(chatId);
+        const res = await axios.get(`api/messages?chatId=${chatId}`);
+        const messageIds = res.data.messageIds;
+        console.log('allMessageID:', messageIds);
         setMemory({
             lastMessageID: messageIds.length > 0 ? messageIds[0] : '',
             chatLength: messageIds.length,

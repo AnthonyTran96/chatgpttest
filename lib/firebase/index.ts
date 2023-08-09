@@ -1,5 +1,5 @@
 import getMessagesDB from './getMessagesDB';
-import getMessagesIds from './getAllMessagesIds';
+import getAllMessageIds from './getAllMessageIds';
 import updateMessageDB from './updateMessageDB';
 import addMessageDB from './addMessageDB';
 import deleteChatDB from './deleteChatDB';
@@ -9,7 +9,7 @@ import addChatDB from './addChatDB';
 
 export {
     getMessagesDB,
-    getMessagesIds,
+    getAllMessageIds,
     updateMessageDB,
     addMessageDB,
     deleteChatDB,
