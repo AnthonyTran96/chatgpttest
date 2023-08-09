@@ -14,6 +14,8 @@ function ChatActionBtn({
     const { messages, stop, reload } = chatHelpers;
     const handleStopAction = async () => {
         stop();
+        console.log('check memory:', memory);
+        console.log('check message:', messages);
         await handleMessage(
             memory.chatLength * 2 !== messages.length,
             messages[messages.length - 2].content,

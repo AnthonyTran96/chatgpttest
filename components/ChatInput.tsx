@@ -5,7 +5,7 @@ import { Message, useChat } from 'ai/react';
 import { v4 as uuidV4 } from 'uuid';
 
 import { Context, ChatActionBtn, ChatForm } from '@/components';
-import { ChatProps, ChatAction, ChatMemo } from '@/lib/types';
+import { ChatProps, ChatAction, ChatMemo, MessagesDb } from '@/lib/types';
 import { addTitle } from '@/lib/utils';
 import axios from '@/lib/axios';
 
@@ -76,9 +76,11 @@ function ChatInput({ chatId }: ChatProps) {
 
     const updateMemo = async () => {
         const res = await axios.get(`api/messages?chatId=${chatId}`);
-        const messageIds = res.data.messageIds;
+        const messages: MessagesDb[] = res.data.messages;
+        const messageIds = messages.map((message) => message.id);
+        console.log(messageIds);
         setMemory({
-            lastMessageID: messageIds.length > 0 ? messageIds[0] : '',
+            lastMessageID: messageIds.length > 0 ? messageIds[messageIds.length - 1] : '',
             chatLength: messageIds.length,
         });
     };

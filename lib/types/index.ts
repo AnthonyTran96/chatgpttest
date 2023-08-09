@@ -30,6 +30,14 @@ export interface ChatData {
     createdAt: Date;
 }
 
+export interface MessagesDb {
+    id: string;
+    message: {
+        user: Message;
+        assistant: Message;
+    };
+}
+
 export interface ChatMemo {
     lastMessageID: string;
     chatLength: number;
