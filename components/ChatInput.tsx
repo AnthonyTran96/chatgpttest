@@ -28,18 +28,6 @@ function ChatInput({ chatId }: ChatProps) {
             if (messages.length === 0) setChatTitleById(input);
             setResAction('REGENERATE');
         },
-        onError: (err: Error) => {
-            const newMessage: Message[] = [...messages];
-            if (newMessage[newMessage.length - 1].role === 'assistant') {
-                newMessage[newMessage.length - 1].content =
-                    'ChatGPT cannot find the answer for that question. You can try regenerating the answer';
-            }
-            if (newMessage[newMessage.length - 1].role === 'user') {
-                newMessage[newMessage.length - 1].content = 'Invalid question. Please ask again!.';
-            }
-            console.log(err.message);
-            setMessages(newMessage);
-        },
         body: { modelParams },
     });
     const { input, messages, stop, setMessages } = chatHelpers;
@@ -58,6 +46,20 @@ function ChatInput({ chatId }: ChatProps) {
         setNewProp('chats', newChats);
     };
 
+    const handleErrorMessage = (error: any) => {
+        const newMessage: Message[] = [...messages];
+        if (newMessage[newMessage.length - 1].role === 'assistant') {
+            newMessage[newMessage.length - 1].content =
+                'ChatGPT cannot find the answer for that question. You can try regenerating the answer!';
+        }
+        if (newMessage[newMessage.length - 1].role === 'user') {
+            newMessage[newMessage.length - 1].content = 'Invalid question. Please ask again!.';
+        }
+        setMessages(newMessage);
+        setResAction('REGENERATE');
+        console.error(error);
+    };
+
     const handleMessage = async (condition: boolean, userMessage: string, assistantMessage: string) => {
         if (condition) {
             const newId = uuidV4();
@@ -71,14 +73,19 @@ function ChatInput({ chatId }: ChatProps) {
                     lastMessageID: newId,
                 };
             });
-        } else await axios.put(`api/messages/${memory.lastMessageID}?chatId=${chatId}`, { message: assistantMessage });
+        } else {
+            try {
+                await axios.put(`api/messages/${memory.lastMessageID}?chatId=${chatId}`, { message: assistantMessage });
+            } catch (error) {
+                handleErrorMessage(error);
+            }
+        }
     };
 
     const updateMemo = async () => {
         const res = await axios.get(`api/messages?chatId=${chatId}`);
         const messages: MessagesDb[] = res.data.messages;
         const messageIds = messages.map((message) => message.id);
-        console.log(messageIds);
         setMemory({
             lastMessageID: messageIds.length > 0 ? messageIds[messageIds.length - 1] : '',
             chatLength: messageIds.length,

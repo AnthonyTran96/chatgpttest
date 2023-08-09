@@ -13,16 +13,14 @@ function ChatActionBtn({
 }: ChatActionBtnProps) {
     const { messages, stop, reload } = chatHelpers;
     const handleStopAction = async () => {
+        setResAction('REGENERATE');
         stop();
-        console.log('check memory:', memory);
-        console.log('check message:', messages);
         await handleMessage(
             memory.chatLength * 2 !== messages.length,
             messages[messages.length - 2].content,
             messages[messages.length - 1].content,
         );
         if (messages.length === 2) setChatTitleById(messages[messages.length - 2].content);
-        setResAction('REGENERATE');
     };
 
     const handleRegenerateAction = () => {
