@@ -2,11 +2,11 @@
 import { useEffect, useState, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import { Message, useChat } from 'ai/react';
+import { v4 as uuidV4 } from 'uuid';
 
 import { Context, ChatActionBtn, ChatForm } from '@/components';
 import { ChatProps, ChatAction, ChatMemo } from '@/lib/types';
 import { addTitle } from '@/lib/utils';
-import { addMessageDB, updateMessageDB } from '@/lib/firebase';
 import axios from '@/lib/axios';
 
 function ChatInput({ chatId }: ChatProps) {
@@ -60,21 +60,23 @@ function ChatInput({ chatId }: ChatProps) {
 
     const handleMessage = async (condition: boolean, userMessage: string, assistantMessage: string) => {
         if (condition) {
-            const newId = await addMessageDB(userMessage, assistantMessage, chatId);
+            const newId = uuidV4();
+            await axios.post(`api/messages/${newId}?chatId=${chatId}`, {
+                user: userMessage,
+                assistant: assistantMessage,
+            });
             setMemory((prev) => {
                 return {
                     chatLength: prev.chatLength + 1,
                     lastMessageID: newId,
                 };
             });
-        } else await updateMessageDB(assistantMessage, chatId, memory.lastMessageID);
+        } else await axios.put(`api/messages/${memory.lastMessageID}?chatId=${chatId}`, { message: assistantMessage });
     };
 
     const updateMemo = async () => {
-        // const messageIds = await getMessagesIds(chatId);
         const res = await axios.get(`api/messages?chatId=${chatId}`);
         const messageIds = res.data.messageIds;
-        console.log('allMessageID:', messageIds);
         setMemory({
             lastMessageID: messageIds.length > 0 ? messageIds[0] : '',
             chatLength: messageIds.length,

@@ -21,6 +21,7 @@ export async function POST(request: Request, { params }: Params) {
         await addChatDB(session?.user?.email!, id);
         return new Response('Create New Chat Success!', { status: 200 });
     } catch (error) {
+        console.log(error);
         return new Response(JSON.stringify({ error: 'Internal Server Error!' }), { status: 500 });
     }
 }
@@ -35,6 +36,7 @@ export async function PUT(request: Request, { params }: Params) {
         await updateChatDB(session?.user?.email!, id, updateData);
         return new Response('Update Chat Success!', { status: 200 });
     } catch (error) {
+        console.log(error);
         return new Response(JSON.stringify({ error: 'Internal Server Error!' }), { status: 500 });
     }
 }
@@ -47,6 +49,7 @@ export async function DELETE(request: Request, { params }: Params) {
         await deleteChatDB(session?.user?.email!, id);
         return new Response('Delete Chat Success!', { status: 200 });
     } catch (error) {
+        console.log(error);
         return new Response(JSON.stringify({ error: 'Internal Server Error!' }), { status: 500 });
     }
 }
