@@ -1,17 +1,16 @@
 'use server';
-import { updateDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { Session } from 'next-auth';
+import { getServerSession } from 'next-auth';
 
 import { titleQuery } from '@/lib/openai/';
-import { db } from '@/firebase';
+import { updateChatDB } from '../firebase';
 
-export default async function addTitle(question: string, chatId: string, session: Session | null) {
-    if (!session) throw new Error('Invalid Session!!');
+export default async function addTitle(question: string, chatId: string) {
+    const session = await getServerSession();
+    if (!session || !session.user) throw new Error('unauthorized!');
     const title = await titleQuery(question, 'text-davinci-003');
     const updateData = {
         title: title || 'New Chat',
-        createdAt: serverTimestamp(),
     };
-    await updateDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId), updateData);
+    await updateChatDB(session.user.email!, chatId, updateData);
     return updateData.title;
 }

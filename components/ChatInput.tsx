@@ -33,7 +33,7 @@ function ChatInput({ chatId }: ChatProps) {
     const { input, messages, stop, setMessages } = chatHelpers;
 
     const setChatTitleById = async (prompt: string) => {
-        const newTitle = await addTitle(prompt, chatId, session);
+        const newTitle = await addTitle(prompt, chatId);
         const newChats = chats.map((chat) => {
             if (chat.id === chatId) {
                 return {
