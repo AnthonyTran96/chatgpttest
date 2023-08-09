@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState, useContext } from 'react';
-import { useSession } from 'next-auth/react';
 import { Message, useChat } from 'ai/react';
 import { v4 as uuidV4 } from 'uuid';
 
@@ -10,7 +9,6 @@ import { addTitle } from '@/lib/utils';
 import axios from '@/lib/axios';
 
 function ChatInput({ chatId }: ChatProps) {
-    const { data: session } = useSession();
     const { chats, modelParams, setNewProp } = useContext(Context);
     const [resAction, setResAction] = useState<ChatAction>('REGENERATE');
     const [memory, setMemory] = useState<ChatMemo>({
