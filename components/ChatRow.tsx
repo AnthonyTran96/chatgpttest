@@ -1,6 +1,6 @@
 'use client';
 /* eslint-disable @next/next/no-img-element */
-import ReactMarkdown from 'react-markdown';
+import { MemoizedReactMarkdown } from './Markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 
@@ -13,7 +13,7 @@ function ChatRow({ content, avatar, role }: ChatRowProps) {
             <div className="p-4 md:py-6 md:px-0 flex max-w-3xl mx-auto relative">
                 <img src={avatar} alt="avatar" className="w-8 h-8 rounded-sm absolute" />
                 <div className="w-full pl-12  md:pr-12 ">
-                    <ReactMarkdown
+                    <MemoizedReactMarkdown
                         className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 w-full"
                         remarkPlugins={[remarkGfm, remarkMath]}
                         components={{
@@ -50,7 +50,7 @@ function ChatRow({ content, avatar, role }: ChatRowProps) {
                         }}
                     >
                         {content}
-                    </ReactMarkdown>
+                    </MemoizedReactMarkdown>
                 </div>
             </div>
         </div>

@@ -8,7 +8,6 @@
 
 import openai from './openai';
 const titleQuery = async (question: string, model: string) => {
-    console.log('add title');
     const prompt = `Impersonate an intelligent AI with the sole task as follows: "I will provide you with a question sentence to initiate a conversation with OpenAI's ChatGPT tool. Based on the question's content, create a suitable title for the conversation that will be formed around that question, using fewer than 8 words. Only provide the accurate summary sentence, without adding any extra words or unnecessary punctuation. Do not include the word 'Title' or any similar words in other languages. Do not enclose your answer within any brackets or quotation marks, such as "". Respond in the same language as the question.
         Question: Write a program in the JavaScript programming language to sort an array of integers in descending order.
         Title: Sort Array Descending
